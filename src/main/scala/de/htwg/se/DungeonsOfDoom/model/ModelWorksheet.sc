@@ -1,3 +1,4 @@
+
 case class Cell(x:Int, y:Int)
 
 val cell1 = Cell(4,5)
