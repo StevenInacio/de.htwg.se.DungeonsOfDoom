@@ -4,7 +4,3 @@ scala:
 
 script:
 - sbt clean coverage test coverageReport
-
-after_success:
-
-- sbt coverageReport coveralls
