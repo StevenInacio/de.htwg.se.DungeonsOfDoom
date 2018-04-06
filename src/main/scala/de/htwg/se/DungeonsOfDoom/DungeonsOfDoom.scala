@@ -1,6 +1,6 @@
 package de.htwg.se.DungeonsOfDoom
 
-import de.htwg.se.DungeonsOfDoom.model.Player
+import model.pawns.Player
 
 object DungeonsOfDoom {
   def main(args: Array[String]): Unit = {
