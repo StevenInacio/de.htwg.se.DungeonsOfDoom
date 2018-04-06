@@ -1,35 +1,27 @@
-# Htwg Scala Seed Project 
-=====================================================
-## the easiest way to start a project for the lecture SE
+[![Coverage Status](https://coveralls.io/repos/github/StevenInacio/de.htwg.se.DungeonsOfDoom/badge.svg?branch=master)](https://coveralls.io/github/StevenInacio/de.htwg.se.DungeonsOfDoom?branch=master)[![Build Status](https://travis-ci.org/StevenInacio/de.htwg.se.DungeonsOfDoom.svg?branch=master)](https://travis-ci.org/StevenInacio/de.htwg.se.DungeonsOfDoom)
 
+# Dungeons of Doom
 
-This is a seed project to create a basic scala project as used in the
-class Software Engineering at the University of Applied Science HTWG Konstanz.
+## A Roguelike in Scala
 
-It requires Java 8 on your local platform.
-The project has
-* a folder structure prepared for a MVC-style application
-* *ScalaTest* and as dependency aswell as dependencies to other libraries in the build.sbt (commented out at start).
-* *scalastyle-sbt-plugin* and *sbt-scoverage* sbt plugins
-* .gitignore defaults
+You awaken in a damp cavern, slightly disoriented.
+You feel a sharp pain on the back of your skull, as if someone had struck you on the head.
 
-The easiest way to create your own project from this seed is
-* create an account on github
-* navigate to this project on github (https://github.com/markoboger/htwg-scala-seed)
-* fork this project on github (button on top right "Fork")
-* copy the URL to your fork
-* clone the forked project from your local git (git clone <URL>) or IDE (IDEA: File > New > Import from Version Controll > github)
+You get up and look around. Dim torches illuminate your surroundings and cast oddly shaped shadows on the wall. You see your Equipment scattered around on the floor next to you.
 
-After that, please rename
-* the Project name from htwg-scala-seed to <your game name>
-* the the package structure from de.htwg.se.yourgame to de.htwg.se.<your game name>
-* the name of the project in the build.sbt file from htwg-scala-seed to <your game name>
-* the main Class YourGame to <YourGameName>
+You ready yourself to stand up and plan how to escape this dungeon you were thrown into. Little did you know, that around every corner, creeping in the shadows, lies your Doom.
 
-Then
-* push to git
-* add team partner to your project on github (Settings > Collaborators)
-* clone on partners account
-* push and pull back and forth
+Tell me, Traveller, how will you escape your fate?  
+How will you escape the ***Dungeons Of Doom***?
 
+## Introduction
 
+This Roguelike, written quite cheesy, is a university project for our course in software engineering.
+
+It will be written in Scala and it (*tries to*) conform to the MVC-layer architecture.
+
+## Installation
+***WIP***
+
+## How to Play
+***WIP***
