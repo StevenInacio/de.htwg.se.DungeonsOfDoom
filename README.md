@@ -1,3 +1,4 @@
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/StevenInacio/de.htwg.se.DungeonsOfDoom.png?columns=all)](https://waffle.io/StevenInacio/de.htwg.se.DungeonsOfDoom?utm_source=badge)
 [![Coverage Status](https://coveralls.io/repos/github/StevenInacio/de.htwg.se.DungeonsOfDoom/badge.svg?branch=master)](https://coveralls.io/github/StevenInacio/de.htwg.se.DungeonsOfDoom?branch=master)[![Build Status](https://travis-ci.org/StevenInacio/de.htwg.se.DungeonsOfDoom.svg?branch=master)](https://travis-ci.org/StevenInacio/de.htwg.se.DungeonsOfDoom)
 
 # Dungeons of Doom
