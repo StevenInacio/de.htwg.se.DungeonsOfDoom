@@ -1,5 +1,6 @@
 package de.htwg.se.DungeonsOfDoom.model.pawns
 
-class DeadPlayer {
-
+case class DeadPlayer(player: Player) extends Spielfigur with Dead {
+    this.
+    override def toString: String = name
 }
