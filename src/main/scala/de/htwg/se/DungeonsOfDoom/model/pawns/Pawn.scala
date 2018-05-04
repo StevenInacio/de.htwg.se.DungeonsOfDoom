@@ -2,8 +2,9 @@ package de.htwg.se.DungeonsOfDoom.model.pawns
 
 import de.htwg.se.DungeonsOfDoom.model.items.Item
 
-trait Spielfigur {
+trait Pawn {
   val name : String
+  var experience : Integer
   var Körper : Integer
   var Stärke : Integer
   var Härte : Integer
