@@ -5,38 +5,24 @@ import de.htwg.se.DungeonsOfDoom.model.items.Item
 trait Pawn {
   val name : String
   var experience : Integer
-  var Körper : Integer
-  var Stärke : Integer
-  var Härte : Integer
-  var Agilität : Integer
-  var Bewegung : Integer
-  var Geschick : Integer
-  var Geist : Integer
-  var Verstand : Integer
-  var Aura : Integer
-  var Panzerungswert : Integer = 0
-  var Nahkampfbonus : Integer = 0
-  var Fernkampfbonus : Integer = 0
-  var Inventory : Array[Item]
-  def Lebenskraft : Integer = {
-    Körper + Härte + 10
-  }
-  def Abwehr : Integer = {
-    Körper + Härte + Panzerungswert
-  }
-  def Initiative : Integer = {
-    Agilität + Bewegung
-  }
-  def Schlagen : Integer = {
-    Körper + Stärke + Nahkampfbonus
-  }
-  /*def Schiessen : Integer = {
-    Agilität + Geschick + Fernkampfbonus
-  }*/
-  /*def Zaubern : Integer = {
-    Geist + Aura - Panzerungswert
-  }
-  def Zielzauber : Integer = {
-    Geist + Geschick - Panzerungswert
-  }*/
+  var body : Integer
+  var strength : Integer
+  var hardness : Integer
+  var agility : Integer
+  var mobility : Integer
+  var dexterity : Integer
+  var spirit : Integer
+  var mind : Integer
+  var aura : Integer
+  var armor_value : Integer = 0
+  var melee_bonus : Integer = 0
+  var ranged_bonus : Integer = 0
+  var inventory : Array[Item]
+  def health : Integer = body + hardness + 10
+  def defense : Integer = body + hardness + armor_value
+  def initiative : Integer = agility + mobility
+  def hit : Integer = body + strength + melee_bonus
+  /*def shoot : Integer = agility + dexterity + ranged_bonus*/
+  /*def cast_spell : Integer = spirit + aura - armor_value*/
+  /*def sling_spell : Integer = spirit + dexterity - armor_value*/
 }
