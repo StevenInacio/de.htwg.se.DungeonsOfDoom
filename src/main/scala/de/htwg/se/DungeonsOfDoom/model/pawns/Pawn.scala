@@ -1,10 +1,12 @@
 package de.htwg.se.DungeonsOfDoom.model.pawns
 
-import de.htwg.se.DungeonsOfDoom.model.items.Item
+import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, Item}
+
+import scala.collection.mutable.ListBuffer
 
 trait Pawn {
   val name : String
-  var experience : Integer
+  var experience : Integer = 0
   var body : Integer
   var strength : Integer
   var hardness : Integer
@@ -17,7 +19,8 @@ trait Pawn {
   var armor_value : Integer = 0
   var melee_bonus : Integer = 0
   var ranged_bonus : Integer = 0
-  var inventory : Array[Item]
+  var inventory : ListBuffer[Item] = new ListBuffer[Item]()
+  var equipped : ListBuffer[Equipable] = new ListBuffer[Equipable]()
   def health : Integer = body + hardness + 10
   def defense : Integer = body + hardness + armor_value
   def initiative : Integer = agility + mobility
