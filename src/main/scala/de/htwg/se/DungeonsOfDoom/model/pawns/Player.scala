@@ -7,5 +7,4 @@ case class Player(name: String, var body: Integer, var strength: Integer,
                   var dexterity: Integer, var spirit: Integer, var mind: Integer,
                   var aura: Integer) extends Pawn {
   override def toString: String = name
-
 }
