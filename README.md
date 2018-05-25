@@ -17,7 +17,7 @@ How will you escape the ***Dungeons Of Doom***?
 
 ## Introduction
 
-This Roguelike, written quite cheesy, is a university project for our course in software engineering.
+This Roguelike, written quite cheesy, is a university project for our course in software engineering. It's rules are based on the "open-source" Pen&Paper RPG [Dungeon Slayers](http://dungeonslayers.net/download/Dungeonslayers4.pdf).
 
 It will be written in Scala and it (*tries to*) conform to the MVC-layer architecture.
 
