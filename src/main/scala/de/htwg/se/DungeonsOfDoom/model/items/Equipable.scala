@@ -4,6 +4,6 @@ package de.htwg.se.DungeonsOfDoom.model.items
   *
   * Items which can be equipped, like weapons or clothes.
   */
-trait Equipable {
-
+trait Equipable extends Item{
+  var durability : Integer
 }

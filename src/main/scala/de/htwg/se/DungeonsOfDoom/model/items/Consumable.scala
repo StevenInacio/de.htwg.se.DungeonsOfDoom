@@ -4,6 +4,6 @@ package de.htwg.se.DungeonsOfDoom.model.items
   *
   * For example, potions, keys, etc.
   */
-trait Consumable {
-
+trait Consumable extends Item{
+  var usage : Integer //how often can I use this item?
 }
