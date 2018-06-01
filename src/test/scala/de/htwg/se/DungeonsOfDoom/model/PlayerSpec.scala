@@ -26,10 +26,10 @@ class PlayerSpec extends WordSpec with Matchers {
         player.toString should be("Your Name")
       }
       "be able to equip items" in {
-
+      //TODO: test equip
       }
       "be able to unequip items" in {
-
+      //TODO: test unequip
       }
     }
   }
