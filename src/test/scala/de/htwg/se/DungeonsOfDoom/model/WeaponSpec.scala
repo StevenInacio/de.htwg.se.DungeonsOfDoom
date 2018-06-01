@@ -9,9 +9,8 @@ import org.scalatest.junit.JUnitRunner
 class WeaponSpec extends WordSpec with Matchers {
   "A Weapon" when {
     "new" should {
-      //                        name        durability  weight  value   damage  minStrength
-      val weapon = Weapon(      "Shiny Dagger",    10,      5,      100,    20,     3)
-      val brokenWeapon = Weapon("Rusty Dagger",     3,      5,      20,     15,     3)
+      //                  name        durability  maxDurability weight  value   damage  minStrength
+      val weapon = Weapon("Shiny Dagger",    10,      10,       5,        100,    20,     3)
       "have some values" in {
         weapon.name should be("Shiny Dagger")
         weapon.durability should be(10)
@@ -21,10 +20,26 @@ class WeaponSpec extends WordSpec with Matchers {
         weapon.minStrength should be(3)
       }
       "lose durability" in {
-        weapon.lowerDurability(7) should be(brokenWeapon)
+        weapon.lowerDurability(7)
+        weapon.durability should be(3)
+      }
+      "lose even more durability" in {
+        weapon.lowerDurability(5)
+        weapon.durability should be(0)
+      }
+      "be broken" in {
+        weapon.isBroken should be(true)
       }
       "gain durability" in {
-        brokenWeapon.repair(7) should be(weapon)
+        weapon.repair(10)
+        weapon.durability should be(10)
+      }
+      "not gain durability" in {
+        weapon.repair(5)
+        weapon.durability should be(10)
+      }
+      "work again" in {
+        weapon.isBroken should be(false)
       }
     }
   }
