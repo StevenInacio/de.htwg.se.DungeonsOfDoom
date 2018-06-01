@@ -4,8 +4,8 @@ class Door(var doorState : DoorState.Value) {
 
   // Nothing Yet
   override def toString: String = doorState match {
-    case _ @ (DoorState.closed | DoorState.locked) => "#"
-    case DoorState.open => "'"
+    case _ @ (DoorState.closed | DoorState.locked) => "a closed door"
+    case DoorState.open => "an open door"
   }
 
   def isLocked : Boolean = doorState == DoorState.locked
