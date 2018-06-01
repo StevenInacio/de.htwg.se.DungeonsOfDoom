@@ -1,7 +1,7 @@
 package de.htwg.se.DungeonsOfDoom.model.items
 
 case class Weapon (name : String,
-                   durability : Integer,
+                   var durability : Integer,
                    maxDurability : Integer,
                    weight : Integer,
                    value : Integer,

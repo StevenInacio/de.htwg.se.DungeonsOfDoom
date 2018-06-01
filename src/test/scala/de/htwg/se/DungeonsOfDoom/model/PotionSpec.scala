@@ -7,7 +7,7 @@ import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class PotionSpec extends WordSpec with Matchers {
-  "A Weapon" when {
+  "A Potion" when {
     "new" should {
       //                         name        weight  value   usage  healthBonus
       val potion = HealingPotion("cheese",      2,      5,      1,        10)
