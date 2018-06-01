@@ -1,5 +1,8 @@
 package de.htwg.se.DungeonsOfDoom.model.board
 
+import de.htwg.se.DungeonsOfDoom.model.items.Item
+
+import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
 object MapFactory {
@@ -24,5 +27,12 @@ object MapFactory {
     var map = Array.ofDim[Field](columns, rows)
     var mapTree = new MapTree(columns, rows)
     map
+  }
+
+  def testMap : Array[Array[Field]] = {
+    val wall = new Wall
+    val closedDoor = new Door(DoorState.closed)
+    val floor = new Floor
+    var floorWithItems = new Floor(new ListBuffer[Item](new Weapon("Sword", 10, 20, 5, 100, 3, 0), new HealingPotion("Ham", 3, 3, 3, 3)))
   }
 }
