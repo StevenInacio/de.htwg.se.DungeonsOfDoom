@@ -42,5 +42,9 @@ project/.sbtserver
 # Sonar
 .sonar/
 
-# Application
-yourgame.log
+# Ensime
+.ensime
+.ensime_cache
+
+# Logs
+*.log
