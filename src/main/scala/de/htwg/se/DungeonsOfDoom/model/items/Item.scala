@@ -7,7 +7,7 @@ package de.htwg.se.DungeonsOfDoom.model.items
   * Also, equipables or consumables.
   */
 trait Item {
-  val name : String
-  val weight : Integer
-  val value : Integer
+  val name: String
+  val weight: Integer
+  val value: Integer
 }
