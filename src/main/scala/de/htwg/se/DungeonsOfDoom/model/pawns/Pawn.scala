@@ -16,6 +16,7 @@ trait Pawn {
   var spirit : Integer
   var mind : Integer
   var aura : Integer
+  var currentHealth : Integer = health
   var armor_value : Integer = 0
   var melee_bonus : Integer = 0
   var ranged_bonus : Integer = 0
@@ -51,4 +52,10 @@ trait Pawn {
       true
     }
   }
+  def changeHealth(amount : Integer) : Unit = {
+    currentHealth += amount
+    if (currentHealth > health) currentHealth = health
+    if (currentHealth < 0) currentHealth = 0 //he ded, son
+  }
+  def isDead : Boolean = currentHealth == 0
 }

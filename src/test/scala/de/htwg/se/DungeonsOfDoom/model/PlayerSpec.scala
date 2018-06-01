@@ -21,6 +21,7 @@ class PlayerSpec extends WordSpec with Matchers {
         player.spirit should be(0)
         player.mind should be(0)
         player.aura should be(0)
+        player.currentHealth should be(10)
       }
       "have a nice String representation" in {
         player.toString should be("Your Name")
@@ -30,6 +31,20 @@ class PlayerSpec extends WordSpec with Matchers {
       }
       "be able to unequip items" in {
       //TODO: test unequip
+      }
+      "get damaged, but should not die" in {
+        player.changeHealth(-5)
+        player.currentHealth should be(5)
+        player.isDead should be(false)
+      }
+      "get healed, but not overhealed" in {
+        player.changeHealth(7)
+        player.currentHealth should be(10)
+      }
+      "be dead at overkill" in {
+        player.changeHealth(-50)
+        player.currentHealth should be(0)
+        player.isDead should be(true)
       }
     }
   }
