@@ -1,11 +1,12 @@
 name          := "DungeonsOfDoom"
 organization  := "de.htwg.se"
 version       := "0.0.1"
-scalaVersion  := "2.12.4"
+scalaVersion in ThisBuild := "2.12.4"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 
 libraryDependencies += "junit" % "junit" % "4.8" % "test"
+
 
 //*******************************************************************************//
 //Libraries that we will use in later lectures compatible with this scala version

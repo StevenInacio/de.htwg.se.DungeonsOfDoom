@@ -1,5 +1,10 @@
 package de.htwg.se.DungeonsOfDoom.model.pawns
 
-case class Enemy(name: String) extends Spielfigur {
+import de.htwg.se.DungeonsOfDoom.model.items.Equipable
+
+case class Enemy(name: String, var body: Integer, var strength: Integer,
+                 var hardness: Integer, var agility: Integer, var mobility: Integer,
+                 var dexterity: Integer, var spirit: Integer, var mind: Integer,
+                 var aura: Integer, var equip: Array[Equipable]) extends Pawn {
   override def toString: String = name
 }
