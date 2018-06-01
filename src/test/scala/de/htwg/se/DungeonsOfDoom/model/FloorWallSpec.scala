@@ -27,6 +27,9 @@ class FloorWallSpec extends WordSpec with Matchers {
       "be able to let go of the items it holds" in {
         floor.pickUpFromFloor(0) should be(weapon)
         floor.inventory.isEmpty should be(true)
+        floor.pickUpFromFloor(weapon) should be(None)
+        floor.putOnFloor(weapon)
+        floor.pickUpFromFloor(weapon).get should be(weapon)
       }
       "should be able to hold Players and Enemies" in {
         val player = Player("Bobo", 0, 0, 0, 0, 0, 0, 0, 0, 0)

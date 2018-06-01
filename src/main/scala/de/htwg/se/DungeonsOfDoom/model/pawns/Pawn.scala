@@ -32,7 +32,7 @@ trait Pawn {
   /*def shoot : Integer = agility + dexterity + ranged_bonus*/
   /*def cast_spell : Integer = spirit + aura - armor_value*/
   /*def sling_spell : Integer = spirit + dexterity - armor_value*/
-  def equip(equipable: Equipable): Unit = {
+  /*def equip(equipable: Equipable): Unit = {
     // Evaluate Type
     // Evaluate if equip slot is free
     // Increase armor or attack bonuses
@@ -55,7 +55,7 @@ trait Pawn {
       // add it to inventory
       true
     }
-  }
+  }*/
 
   def changeHealth(amount: Integer): Unit = {
     currentHealth += amount

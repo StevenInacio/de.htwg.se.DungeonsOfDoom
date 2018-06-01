@@ -17,6 +17,15 @@ case class Floor(var inventory: ListBuffer[Item] = new ListBuffer[Item]) extends
     inventory.remove(index)
   }
 
+  def pickUpFromFloor(item: Item): Option[Item] = {
+    if (inventory.contains(item)) {
+      inventory -= item
+      Some(item)
+    } else {
+      None
+    }
+  }
+
   /*def visit(pawn: Pawn) : Unit = visitedBy = Some(pawn)
 
   def leave() : Pawn = {
