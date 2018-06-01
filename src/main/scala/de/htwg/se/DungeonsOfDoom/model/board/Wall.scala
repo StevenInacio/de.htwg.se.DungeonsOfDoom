@@ -1,6 +1,6 @@
 package de.htwg.se.DungeonsOfDoom.model.board
 
-class Wall extends Field {
+case class Wall() extends Field {
   /*override def toString: String = {
     direction match {
       case "horizontal" => "-"
