@@ -11,3 +11,8 @@ val field1 = Field(Array.ofDim[Cell](1))
 field1.cells(0)=cell1
 field1.cells(0).x
 field1.cells(0).y
+
+import de.htwg.se.DungeonsOfDoom.model.pawns.Player
+var player = Player("Player",0,0,0,0,0,0,0,0,0)
+print(player.spirit)
+player.spirit += 1
