@@ -4,12 +4,11 @@ import de.htwg.se.DungeonsOfDoom.controller.utility.Dice
 import de.htwg.se.DungeonsOfDoom.model.pawns.Pawn
 
 object PawnInteraction {
-  def attack(attacker: Pawn, target: Pawn): Unit = {
-    var result = Dice.roll(20)
-    if (result < attacker.hit && result < 20) {
-      val defend = Dice.roll(20)
-      if (defend <= target.defense && defend < 20) {
-        result -= defend
+  def attack(attacker: Pawn, target: Pawn, attackerDice: Integer, targetDice: Integer): Unit = {
+    var result = attackerDice
+    if (result <= attacker.hit && result < 20) {
+      if (targetDice <= target.defense && targetDice < 20) {
+        result -= targetDice
       }
       if (result < 0) {
         result = 0
