@@ -30,6 +30,9 @@ class PlayerSpec extends WordSpec with Matchers {
       "have a nice String representation" in {
         player.toString should be("Your Name")
       }
+      "have a current position" in {
+        player.currentPosition should be((0, 0))
+      }
       "be able to equip items" in {
       //TODO: test equip
       }
