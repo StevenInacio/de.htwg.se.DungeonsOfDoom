@@ -1,6 +1,6 @@
 package de.htwg.se.DungeonsOfDoom.model.board
 
-case class Door(var doorState: DoorState.Value) extends Field {
+case class Door(var doorState: DoorState.Value) extends Field with Walkable {
 
   // Nothing Yet
   override def toString: String = doorState match {
