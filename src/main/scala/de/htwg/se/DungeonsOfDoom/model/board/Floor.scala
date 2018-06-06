@@ -1,13 +1,10 @@
 package de.htwg.se.DungeonsOfDoom.model.board
 
 import de.htwg.se.DungeonsOfDoom.model.items.Item
-import de.htwg.se.DungeonsOfDoom.model.pawns._
 
 import scala.collection.mutable.ListBuffer
 
-case class Floor(var inventory: ListBuffer[Item] = new ListBuffer[Item]) extends Field {
-
-  var visitedBy: Option[Pawn] = None
+case class Floor(var inventory: ListBuffer[Item] = new ListBuffer[Item]) extends Field with Walkable {
 
   def putOnFloor(item: Item): Unit = {
     inventory += item

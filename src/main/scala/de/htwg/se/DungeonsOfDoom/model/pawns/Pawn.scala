@@ -5,6 +5,7 @@ import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, Item}
 import scala.collection.mutable.ListBuffer
 
 trait Pawn {
+  var currentPosition: (Integer, Integer)
   val name: String
   var experience: Integer = 0
   var body: Integer
