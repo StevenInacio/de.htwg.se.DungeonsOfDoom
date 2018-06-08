@@ -11,7 +11,7 @@ import de.htwg.se.DungeonsOfDoom.controller.pawn.PawnInteraction
 
 @RunWith(classOf[JUnitRunner])
 class PawnInteractionSpec extends WordSpec with Matchers {
-  val player = Player("Spike", 1, 1, 1, 1, 1, 1, 1, 1, 1) //currentHealth = 12, hit = 2
+  val player = Player("Spike", 25, 25, 25, 25, 25, 25, 25, 25, 25) //currentHealth = 12, hit = 2
   val enemy = Enemy("Evil", 1, 1, 1, 1, 1, 1, 1, 1, 1) //currentHealth = 12, hit = 2
 
   "A Player" when {
@@ -22,6 +22,10 @@ class PawnInteractionSpec extends WordSpec with Matchers {
       }
       "not heal him" in {
         PawnInteraction.attack(player, enemy, -3, 1)
+        enemy.currentHealth should be(11)
+      }
+      "not damage him when rolled a 20" in {
+        PawnInteraction.attack(player, enemy, 20, 1)
         enemy.currentHealth should be(11)
       }
     }
