@@ -22,5 +22,4 @@ class PawnInteractionSpec extends WordSpec with Matchers {
       }
     }
   }
-
 }
