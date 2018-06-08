@@ -1,11 +1,13 @@
 package de.htwg.se.DungeonsOfDoom.controller
 
+import de.htwg.se.DungeonsOfDoom.model.items.Weapon
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class ItemInteractionSpec {
   //TODO create item weapon
+  val weapon = Weapon("Wooden Stick Of Death", 5, 5, 1, 0, 2, 1)
   //TODO create item healingPotion with multiple usages
   //TODO create player (with both items in inventory
   //TODO create floor
