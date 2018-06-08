@@ -3,7 +3,6 @@ package de.htwg.se.DungeonsOfDoom.controller
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
-
 @RunWith(classOf[JUnitRunner])
 class ItemInteractionSpec {
   //TODO create item weapon
