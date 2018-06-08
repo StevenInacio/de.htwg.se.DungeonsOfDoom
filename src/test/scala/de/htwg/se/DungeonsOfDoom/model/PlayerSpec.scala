@@ -1,6 +1,6 @@
 package de.htwg.se.DungeonsOfDoom.model
 
-import de.htwg.se.DungeonsOfDoom.model.items.Equipable
+import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, Weapon}
 import de.htwg.se.DungeonsOfDoom.model.pawns.{Enemy, Player}
 import org.junit.runner.RunWith
 import org.scalatest._
@@ -60,6 +60,10 @@ class PlayerSpec extends WordSpec with Matchers {
       val enemy = Enemy("Hektor", 0, 0, 0, 0, 0, 0, 0, 0, 0, new Array[Equipable](0))
       "have a name" in {
         enemy.toString should be("Hektor")
+      }
+      "and gets a melee bonus when he carries a weapon" in {
+        val armedEnemy = Enemy("Hektor", 0, 0, 0, 0, 0, 0, 0, 0, 0, Array(Weapon("Shiny Dagger",10,10,1,15,2,0)))
+        armedEnemy.melee_bonus should be(2)
       }
     }
   }
