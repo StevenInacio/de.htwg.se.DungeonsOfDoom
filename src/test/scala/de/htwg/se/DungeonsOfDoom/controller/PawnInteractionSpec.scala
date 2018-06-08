@@ -20,6 +20,10 @@ class PawnInteractionSpec extends WordSpec with Matchers {
         PawnInteraction.attack(player, enemy, 2, 1)
         enemy.currentHealth should be(11)
       }
+      "not heal him" in {
+        PawnInteraction.attack(player, enemy, -3, 1)
+        enemy.currentHealth should be(11)
+      }
     }
   }
 }
