@@ -20,8 +20,19 @@ class DiceSpec extends WordSpec with Matchers{
       "never roll lower than 0" in {
         Dice.roll(-5) should be(0)
       }
-      "can (in soecial cases) roll 0" in {
+      "can (in special cases) roll 0" in {
         Dice.roll(0) should be(0)
+      }
+    }
+    "rolled nonrandom" should {
+      "roll 5 when random is 4" in {
+        Dice.getRollWithoutRandom(6, 4) should be(5)
+      }
+      "roll 2 when random is 4 but size is 2" in {
+        Dice.getRollWithoutRandom(2, 4) should be(2)
+      }
+      "roll 0 when random is any value but size is 0" in {
+        Dice.getRollWithoutRandom(0, 15) should be(0)
       }
     }
   }
