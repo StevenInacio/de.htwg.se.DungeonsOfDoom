@@ -11,6 +11,7 @@ object EventListener {
       case "DropItem" => drop(parameter)
       case "PickUpItem" => pickup(parameter)
       case "UnequipItem" => unequip(parameter)
+      case "Undo" => undo(parameter)
     }
   }
 
@@ -46,5 +47,9 @@ object EventListener {
     if (parameter.nonEmpty) {
       ItemInteraction unequip parameter.get
     }
+  }
+
+  private[this] def undo(parameter: Option[Any]): Unit = {
+    TimeManager.undo()
   }
 }
