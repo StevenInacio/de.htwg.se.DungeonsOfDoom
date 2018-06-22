@@ -5,16 +5,16 @@ import de.htwg.se.DungeonsOfDoom.model.items._
 import de.htwg.se.DungeonsOfDoom.model.pawns.Pawn
 
 object ItemInteraction {
-  def use(pawn: Pawn, item: Item): Unit = {
+  def use(pawn: Pawn, item: Item): Boolean = {
     if(pawn.inventory.contains(item)){
       item match {
         case x: Consumable => consume(pawn, x)
         case x: Equipable => equip(pawn, x)
       }
-    }
+      true
+    } else {false}
   }
-  def consume(pawn: Pawn, item: Consumable): Unit = {
-    //TODO return boolean
+  private[this] def consume(pawn: Pawn, item: Consumable): Unit = {
     if(item.usage > 1) {
       item.usage -= 1
     } else {
@@ -25,38 +25,37 @@ object ItemInteraction {
     }
   }
 
-  def equip(pawn: Pawn, item: Equipable): Boolean = {
-    //TODO return boolean
+  private[this] def equip(pawn: Pawn, item: Equipable): Unit = {
     pawn.inventory -= item
     item match {
       case x: Weapon => if (pawn.strength >= x.minStrength) {
         pawn.melee_bonus += x.damage
         pawn.equipped += x
-        true
       }
     }
-    false
   }
-  def unequip(pawn: Pawn, item: Equipable): Unit = {
-    //TODO return boolean
-    pawn.inventory += item
-    item match {
-      case x: Weapon => pawn.melee_bonus -= x.damage
-        pawn.equipped -= x
-    }
+  def unequip(pawn: Pawn, item: Equipable): Boolean = {
+    if(pawn.equipped.contains(item)){
+      pawn.inventory += item
+      item match {
+        case x: Weapon => pawn.melee_bonus -= x.damage
+          pawn.equipped -= x
+      }
+      true
+    } else {false}
   }
-  def pickup(pawn: Pawn, floor: Floor, item: Item): Unit = {
-    //TODO return boolean
+  def pickup(pawn: Pawn, floor: Floor, item: Item): Boolean = {
     if(floor.inventory.contains(item)){
       pawn.inventory += item
       floor.inventory -= item
-    }
+      true
+    } else {false}
   }
-  def drop(pawn: Pawn, floor: Floor, item: Item): Unit = {
-    //TODO return boolean
+  def drop(pawn: Pawn, floor: Floor, item: Item): Boolean = {
     if(pawn.inventory.contains(item)){
       pawn.inventory -= item
       floor.inventory += item
-    }
+      true
+    } else {false}
   }
 }
