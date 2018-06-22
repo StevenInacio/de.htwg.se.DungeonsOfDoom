@@ -16,36 +16,54 @@ object EventListener {
   }
 
   private[this] def walk(parameter: Option[Any]): Unit = {
+    TimeManager.saveState(TimeManager.getState())
     parameter match {
-      case None => Unit
-      case Some("Up") => BoardInteraction check "Up"
-      case Some("Down") => BoardInteraction check "Down"
-      case Some("Left") => BoardInteraction check "Left"
-      case Some("Right") => BoardInteraction check "Right"
+      case Some("Up") => BoardInteraction checkPlayer "Up"
+      case Some("Down") => BoardInteraction checkPlayer "Down"
+      case Some("Left") => BoardInteraction checkPlayer "Left"
+      case Some("Right") => BoardInteraction checkPlayer "Right"
+      case _ => Unit
     }
+    TimeManager.advanceTime()
   }
 
   private[this] def use(parameter: Option[Any]): Unit = {
     if (parameter.nonEmpty) {
-      ItemInteraction use parameter.get
+      val tmp = TimeManager.getState()
+      if (ItemInteraction use parameter.get) {
+        TimeManager.saveState(tmp)
+        TimeManager.advanceTime()
+      }
     }
   }
 
   private[this] def drop(parameter: Option[Any]): Unit = {
     if (parameter.nonEmpty) {
-      BoardInteraction drop parameter.get
+      val tmp = TimeManager.getState()
+      if (BoardInteraction drop parameter.get) {
+        TimeManager.saveState(tmp)
+        TimeManager.advanceTime()
+      }
     }
   }
 
   private[this] def pickup(parameter: Option[Any]): Unit = {
     if (parameter.nonEmpty) {
-      BoardInteraction pickup parameter.get
+      val tmp = TimeManager.getState()
+      if (BoardInteraction pickup parameter.get) {
+        TimeManager.saveState(tmp)
+        TimeManager.advanceTime()
+      }
     }
   }
 
   private[this] def unequip(parameter: Option[Any]): Unit = {
     if (parameter.nonEmpty) {
-      ItemInteraction unequip parameter.get
+      val tmp = TimeManager.getState()
+      if (ItemInteraction unequip parameter.get) {
+        TimeManager.saveState(tmp)
+        TimeManager.advanceTime()
+      }
     }
   }
 
