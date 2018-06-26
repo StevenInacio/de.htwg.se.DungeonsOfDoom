@@ -8,8 +8,8 @@ object ItemInteraction {
   def use(pawn: Pawn, item: Item): Boolean = {
     if(pawn.inventory.contains(item)){
       item match {
-        case x: Consumable => consume(pawn, x)
-        case x: Equipable => equip(pawn, x)
+        case c: Consumable => consume(pawn, c)
+        case e: Equipable => equip(pawn, e)
       }
       true
     } else {false}
