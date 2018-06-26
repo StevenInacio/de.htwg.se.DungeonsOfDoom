@@ -1,9 +1,8 @@
 package de.htwg.se.DungeonsOfDoom.controller.utility
-import java.io.File
+
 import de.htwg.se.DungeonsOfDoom.model.board.Field
 
 object TimeManager {
-  var run = true;
   //def getState(map: Array[Array[Field]]) : State = {
     // _TODO
   //}
@@ -11,9 +10,7 @@ object TimeManager {
     // _TODO
   //}
   def advanceTime() : Unit = {
-    while(run) {
 
-    }
   }
   //def undo() : Unit = {
     // _TODO
