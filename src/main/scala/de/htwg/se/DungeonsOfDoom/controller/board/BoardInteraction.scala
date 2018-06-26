@@ -1,16 +1,20 @@
 package de.htwg.se.DungeonsOfDoom.controller.board
 
+
 import de.htwg.se.DungeonsOfDoom.controller.item.ItemInteraction
 import de.htwg.se.DungeonsOfDoom.controller.pawn.PawnInteraction
 import de.htwg.se.DungeonsOfDoom.controller.utility.Dice
 import de.htwg.se.DungeonsOfDoom.model.board._
 import de.htwg.se.DungeonsOfDoom.model.items.{Item, Key}
-import de.htwg.se.DungeonsOfDoom.model.pawns.{Pawn, Player}
+import de.htwg.se.DungeonsOfDoom.model.pawns._
+
+import scala.collection.mutable.ListBuffer
 
 object BoardInteraction {
 
   val player = Player("", 0, 0, 0, 0, 0, 0, 0, 0, 0)
   var board = new Map()
+  val enemyList = new ListBuffer[Enemy]()
 
   def playerCheck(direction: String): Unit = {
     check(player, direction)
@@ -39,20 +43,18 @@ object BoardInteraction {
     //TODO: Replace with Enums
     field match {
       case _: Wall => 0
-      case x: Door => {
+      case x: Door =>
         if (x.isOpen) {
           1
         } else {
           2
         }
-      }
-      case x: Walkable => {
+      case x: Walkable =>
         if (x.visitedBy.isEmpty) {
           1
         } else {
           3
         }
-      }
     }
   }
 
@@ -67,10 +69,9 @@ object BoardInteraction {
   def openDoor(pawn: Pawn, door: Door): Unit = {
     if (door.isLocked) {
       pawn.inventory.find((x: Item) => x.isInstanceOf[Key]) match {
-        case Some(x) => {
+        case Some(x) =>
           ItemInteraction.use(pawn, x)
           door.doorState = DoorState.open
-        }
         case None => Unit
       }
     }
@@ -103,7 +104,9 @@ object BoardInteraction {
       rand = new scala.util.Random()
       y = rand.nextInt(board.map(0).length)
     } while (!board.map(x)(y).isInstanceOf[Walkable] || board.map(x)(y).asInstanceOf[Walkable].visitedBy.nonEmpty)
-
+    val enemy: Enemy = EnemyFactory.generate((x, y))
+    board.map(x)(y).asInstanceOf[Walkable].visitedBy = Some(enemy)
+    enemyList += enemy
   }
 
 }
