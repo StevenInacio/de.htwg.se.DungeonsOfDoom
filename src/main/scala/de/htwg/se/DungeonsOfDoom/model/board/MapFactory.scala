@@ -19,14 +19,14 @@ object MapFactory {
 
   }*/
 
-  def generate(): Array[Array[Field]] = {
+  def generate(): (Array[Array[Field]], (Integer, Integer)) = {
     /*val rand = Random
     val columns = rand.nextInt(101) + 50 // scalastyle:ignore
     val rows = rand.nextInt(101) + 50 // scalastyle:ignore
     var map = Array.ofDim[Field](columns, rows)
     var mapTree = new MapTree(columns, rows)
     map*/
-    testMap
+    (testMap, (1, 2))
   }
 
   //scalastyle:off magic.number

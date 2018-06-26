@@ -1,8 +1,8 @@
 package de.htwg.se.DungeonsOfDoom.model.board
 
-class Map(var map: Array[Array[Field]] = new Array[Array[Field]](0)) { //scalastyle:ignore
+class Map(var map: Array[Array[Field]] = new Array[Array[Field]](0), var playerSpawnPoint: (Integer, Integer) = (0, 0)) { //scalastyle:ignore
   if (map.isEmpty) {
-    map = MapFactory.generate()
+    (map, playerSpawnPoint) = MapFactory.generate()
   }
 
   /*override def toString : String = {
