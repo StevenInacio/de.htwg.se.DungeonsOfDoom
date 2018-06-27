@@ -1,8 +1,8 @@
 package de.htwg.se.DungeonsOfDoom.model.items
 
 case class HealingPotion(name: String,
-                         weight: Integer,
-                         value: Integer,
-                         override var usage: Integer = 1,
-                         healthBonus: Integer
+                         weight: Int,
+                         value: Int,
+                         override var usage: Int = 1,
+                         healthBonus: Int
                         ) extends Item with Consumable

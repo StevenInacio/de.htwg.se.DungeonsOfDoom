@@ -1,12 +1,12 @@
 package de.htwg.se.DungeonsOfDoom.model.items
 
 case class Weapon(name: String,
-                  var durability: Integer,
-                  maxDurability: Integer,
-                  weight: Integer,
-                  value: Integer,
-                  damage: Integer,
-                  minStrength: Integer
+                  var durability: Int,
+                  maxDurability: Int,
+                  weight: Int,
+                  value: Int,
+                  damage: Int,
+                  minStrength: Int
                  ) extends Item with Equipable {
 
 }

@@ -1,10 +1,9 @@
 package de.htwg.se.DungeonsOfDoom.controller.pawn
 
-import de.htwg.se.DungeonsOfDoom.controller.utility.Dice
 import de.htwg.se.DungeonsOfDoom.model.pawns.Pawn
 
 object PawnInteraction {
-  def attack(attacker: Pawn, target: Pawn, attackerDice: Integer, targetDice: Integer): Unit = {
+  def attack(attacker: Pawn, target: Pawn, attackerDice: Int, targetDice: Int): Unit = {
     var result = attackerDice
     if (result <= attacker.hit && result < 20) {
       if (targetDice <= target.defense && targetDice < 20) {

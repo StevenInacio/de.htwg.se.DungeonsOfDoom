@@ -19,7 +19,7 @@ object MapFactory {
 
   }*/
 
-  def generate(): (Array[Array[Field]], (Integer, Integer)) = {
+  def generate(): (Array[Array[Field]], (Int, Int)) = {
     /*val rand = Random
     val columns = rand.nextInt(101) + 50 // scalastyle:ignore
     val rows = rand.nextInt(101) + 50 // scalastyle:ignore

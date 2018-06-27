@@ -5,34 +5,34 @@ import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, Item}
 import scala.collection.mutable.ListBuffer
 
 trait Pawn {
-  var currentPosition: (Integer, Integer)
+  var currentPosition: (Int, Int)
   val name: String
-  var experience: Integer = 0
-  var body: Integer
-  var strength: Integer
-  var hardness: Integer
-  var agility: Integer
-  var mobility: Integer
-  var dexterity: Integer
-  var spirit: Integer
-  var mind: Integer
-  var aura: Integer
-  var currentHealth: Integer = health
-  var armor_value: Integer = 0
-  var melee_bonus: Integer = 0
-  var ranged_bonus: Integer = 0
+  var experience: Int = 0
+  var body: Int
+  var strength: Int
+  var hardness: Int
+  var agility: Int
+  var mobility: Int
+  var dexterity: Int
+  var spirit: Int
+  var mind: Int
+  var aura: Int
+  var currentHealth: Int = health
+  var armor_value: Int = 0
+  var melee_bonus: Int = 0
+  var ranged_bonus: Int = 0
   var inventory: ListBuffer[Item] = new ListBuffer[Item]()
   var equipped: ListBuffer[Equipable] = new ListBuffer[Equipable]()
 
-  def defense: Integer = body + hardness + armor_value
+  def defense: Int = body + hardness + armor_value
 
-  def initiative: Integer = agility + mobility
+  def initiative: Int = agility + mobility
 
-  def hit: Integer = body + strength + melee_bonus
+  def hit: Int = body + strength + melee_bonus
 
-  /*def shoot : Integer = agility + dexterity + ranged_bonus*/
-  /*def cast_spell : Integer = spirit + aura - armor_value*/
-  /*def sling_spell : Integer = spirit + dexterity - armor_value*/
+  /*def shoot : Int = agility + dexterity + ranged_bonus*/
+  /*def cast_spell : Int = spirit + aura - armor_value*/
+  /*def sling_spell : Int = spirit + dexterity - armor_value*/
   /*def equip(equipable: Equipable): Unit = {
     // Evaluate Type
     // Evaluate if equip slot is free
@@ -58,13 +58,13 @@ trait Pawn {
     }
   }*/
 
-  def changeHealth(amount: Integer): Unit = {
+  def changeHealth(amount: Int): Unit = {
     currentHealth += amount
     if (currentHealth > health) currentHealth = health
     if (currentHealth < 0) currentHealth = 0 //he ded, son
   }
 
-  def health: Integer = body + hardness + 10
+  def health: Int = body + hardness + 10
 
   def isDead: Boolean = currentHealth == 0
 }
