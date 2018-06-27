@@ -3,7 +3,7 @@ package de.htwg.se.DungeonsOfDoom.controller.utility
 import java.io.{BufferedWriter, FileWriter}
 
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
-import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Map, Wall}
+import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Map, Walkable, Wall}
 import de.htwg.se.DungeonsOfDoom.model.items._
 import de.htwg.se.DungeonsOfDoom.model.pawns.{Enemy, Player}
 
@@ -176,9 +176,26 @@ class XMLstate extends StateManager{
       }
       enemyList += enemy
     }
+    var map = new Map //TODO make this array[array]
+    val BOARD_SEQUENCE = (xml \ "board")
+    for(r <- BOARD_SEQUENCE){
+      val FIELD_SEQUENCE = (r \ "row")
+      var row = new Array[Walkable] //TODO make this an array
+      for(f <- FIELD_SEQUENCE){
 
-    //TODO load board
-    //TODO Map (map, player, enemyList)
+        f match {
+          case <wall></wall> => row += new Wall() //add new wall to array row
+          case <door>{d}</door> => {
+            //TODO read doorstate from d and add new door to array row
+          }
+          case <floor>{f}</floor> => {
+            //TODO read inventory from f and add new floor with invenotsy to arra row
+          }
+        }
+      }
+      map += row //TODO append row to map
+    }
+    (map, player, enemyList)
   }
 
   def toXML() : Node = {
