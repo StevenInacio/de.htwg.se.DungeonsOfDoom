@@ -3,13 +3,27 @@ package de.htwg.se.DungeonsOfDoom.controller.utility
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
 import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Wall}
 import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, HealingPotion, Item, Weapon}
+import de.htwg.se.DungeonsOfDoom.model.pawns.{Enemy, Player}
 
 import scala.collection.mutable.ListBuffer
 import scala.xml.Node
 
 
-class XMLstate {
-  def toXML() : Unit = {
+class XMLstate extends StateManager{
+
+  override def getState : State = {
+    State(toXML.toString)
+  }
+
+  override def saveState(state: State) : Unit = {
+
+  }
+
+  override def loadState : (Map, Player, ListBuffer[Enemy]) = {
+
+  }
+
+  def toXML() : Node = {
     <state>
       <player>
         <name>{BoardInteraction.player.name}</name>
