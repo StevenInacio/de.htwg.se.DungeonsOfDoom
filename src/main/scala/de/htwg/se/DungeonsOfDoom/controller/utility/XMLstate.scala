@@ -16,18 +16,15 @@ class XMLstate extends StateManager{
   override def getState : State = {
     State(toXML.toString)
   }
-
   override def saveState(state: State) : Unit = {
     val bw = new BufferedWriter(new FileWriter("savegame.xml"))
     bw.write(state.contents)
     bw.close
   }
-
   override def loadState : (Map, Player, ListBuffer[Enemy]) = {
     val xml = XML.loadFile("savegame.xml")
     fromXML(xml)
   }
-
   def fromXML(xml : Node) : (Map, Player, ListBuffer[Enemy]) = {
     val player_name = (xml \ "player" \"name").text
     val player_body = (xml \ "player" \"body").text.toInt
@@ -41,12 +38,12 @@ class XMLstate extends StateManager{
     val player_aura = (xml \ "player" \"aura").text.toInt
     val player_x = (xml \ "player" \"positionx").text.toInt
     val player_y = (xml \ "player" \"positiony").text.toInt
-    val INVENTORY_SEQUENCE = (xml \ "player" \ "inventory")
-    var inventory = new ListBuffer[Item]
-    for(n <- INVENTORY_SEQUENCE){
+    val PLAYER_INVENTORY_SEQUENCE = (xml \ "player" \ "inventory")
+    var player_inventory = new ListBuffer[Item]
+    for(n <- PLAYER_INVENTORY_SEQUENCE){
       n match {
         case <weapon>{w}</weapon> => {
-          inventory += Weapon((w \ "name").text,
+          player_inventory += Weapon((w \ "name").text,
                               (w \ "durability").text.toInt,
                               (w \ "maxdurability").text.toInt,
                               (w \ "weight").text.toInt,
@@ -55,20 +52,85 @@ class XMLstate extends StateManager{
                               (w \ "minstrength").text.toInt)
         }
         case <healingpostion>{h}</healingpostion> => {
-          inventory += HealingPotion((h \ "name").text,
+          player_inventory += HealingPotion((h \ "name").text,
                                      (h \ "weight").text.toInt,
                                      (h \ "value").text.toInt,
                                      (h \ "usage").text.toInt,
                                      (h \ "healthbonus").text.toInt)
         }
         case <key>{k}</key> => {
-          inventory += new Key
+          player_inventory += new Key
         }
       }
     }
+    val PLAYER_EQUIPPED_SEQUENCE = (xml \ "player" \ "equipped")
+    var player_equipped = new ListBuffer[Equipable]
+    for(n <- PLAYER_EQUIPPED_SEQUENCE){
+      n match{
+        case <weapon>{w}</weapon> => {
+            player_inventory += Weapon((w \ "name").text,
+                                       (w \ "durability").text.toInt,
+                                       (w \ "maxdurability").text.toInt,
+                                       (w \ "weight").text.toInt,
+                                       (w \ "value").text.toInt,
+                                       (w \ "damage").text.toInt,
+                                       (w \ "minstrength").text.toInt)
+        }
+      }
+    }
+    val player = Player(
+      player_name,
+      player_body,
+      player_strength,
+      player_hardness,
+      player_agility,
+      player_mobility,
+      player_dexterity,
+      player_spirit,
+      player_mind,
+      player_aura,
+      currentPosition = (player_x, player_y)
+    )
+    player.inventory = player_inventory
+    player.equipped = player_equipped
+    for (e <- player.equipped) {
+      e match {
+        case w: Weapon => player.melee_bonus += w.damage
+      }
+    }
 
+    var enemyList = new ListBuffer[Enemy]
+    val ENEMY_SEQUENCE = (xml \ "enemys")
+    for (e <- ENEMY_SEQUENCE) {
+      val enemy_name = (e \ "name").text
+      val enemy_body = (e \ "body").text.toInt
+      val enemy_strength = (e \ "strength").text.toInt
+      val enemy_hardness = (e \ "hardness").text.toInt
+      val enemy_agility = (e \ "agility").text.toInt
+      val enemy_mobility = (e \ "mobility").text.toInt
+      val enemy_dexterity = (e \ "dexterity").text.toInt
+      val enemy_spirit = (e \ "spirit").text.toInt
+      val enemy_mind = (e \ "mind").text.toInt
+      val enemy_aura = (e \ "aura").text.toInt
+      val e_pos_x = (e \ "positionx").text.toInt
+      val e_pos_y = (e \ "positiony").text.toInt
+      val enemy = Enemy(
+        enemy_name,
+        enemy_body,
+        enemy_strength,
+        enemy_hardness,
+        enemy_agility,
+        enemy_mobility,
+        enemy_dexterity,
+        enemy_spirit,
+        enemy_mind,
+        enemy_aura,
+        currentPosition = (e_pos_x, e_pos_y)
+      )
+      //TODO enemy inventory
+      enemyList += enemy
+    }
 
-    //TODO load enemys
     //TODO load board
     //TODO combine to (Map, Player, ListBuffer[Enemy])
   }
