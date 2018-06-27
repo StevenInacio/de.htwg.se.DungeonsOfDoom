@@ -127,12 +127,58 @@ class XMLstate extends StateManager{
         enemy_aura,
         currentPosition = (e_pos_x, e_pos_y)
       )
-      //TODO enemy inventory
+      val ENEMY_INVENTORY_SEQUENCE = (xml \ "enemy" \ "inventory")
+      var enemy_inventory = new ListBuffer[Item]
+      for(n <- ENEMY_INVENTORY_SEQUENCE){
+        n match {
+          case <weapon>{w}</weapon> => {
+            enemy_inventory += Weapon((w \ "name").text,
+              (w \ "durability").text.toInt,
+              (w \ "maxdurability").text.toInt,
+              (w \ "weight").text.toInt,
+              (w \ "value").text.toInt,
+              (w \ "damage").text.toInt,
+              (w \ "minstrength").text.toInt)
+          }
+          case <healingpostion>{h}</healingpostion> => {
+            enemy_inventory += HealingPotion((h \ "name").text,
+              (h \ "weight").text.toInt,
+              (h \ "value").text.toInt,
+              (h \ "usage").text.toInt,
+              (h \ "healthbonus").text.toInt)
+          }
+          case <key>{k}</key> => {
+            enemy_inventory += new Key
+          }
+        }
+      }
+      enemy.inventory = enemy_inventory
+      val ENEMY_EQUIPPED_SEQUENCE = (xml \ "enemy" \ "equipped")
+      var enemy_equipped = new ListBuffer[Equipable]
+      for(n <- ENEMY_EQUIPPED_SEQUENCE){
+        n match{
+          case <weapon>{w}</weapon> => {
+            enemy_inventory += Weapon((w \ "name").text,
+              (w \ "durability").text.toInt,
+              (w \ "maxdurability").text.toInt,
+              (w \ "weight").text.toInt,
+              (w \ "value").text.toInt,
+              (w \ "damage").text.toInt,
+              (w \ "minstrength").text.toInt)
+          }
+        }
+      }
+      enemy.equipped = enemy_equipped
+      for (e <- enemy.equipped) {
+        e match {
+          case w: Weapon => enemy.melee_bonus += w.damage
+        }
+      }
       enemyList += enemy
     }
 
     //TODO load board
-    //TODO combine to (Map, Player, ListBuffer[Enemy])
+    //TODO Map (map, player, enemyList)
   }
 
   def toXML() : Node = {
