@@ -3,8 +3,8 @@ package de.htwg.se.DungeonsOfDoom.controller.utility
 import java.io.{BufferedWriter, FileWriter}
 
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
-import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Wall, Map}
-import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, HealingPotion, Item, Weapon}
+import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Map, Wall}
+import de.htwg.se.DungeonsOfDoom.model.items._
 import de.htwg.se.DungeonsOfDoom.model.pawns.{Enemy, Player}
 
 import scala.collection.mutable.ListBuffer
@@ -29,7 +29,44 @@ class XMLstate extends StateManager{
   }
 
   def fromXML(xml : Node) : (Map, Player, ListBuffer[Enemy]) = {
-    //TODO load player:
+    val player_name = (xml \ "player" \"name").text
+    val player_body = (xml \ "player" \"body").text.toInt
+    val player_strength = (xml \ "player" \"strength").text.toInt
+    val player_hardness = (xml \ "player" \"hardness").text.toInt
+    val player_agility = (xml \ "player" \"agility").text.toInt
+    val player_mobility = (xml \ "player" \"mobility").text.toInt
+    val player_dexterity = (xml \ "player" \"dexterity").text.toInt
+    val player_spirit = (xml \ "player" \"spirit").text.toInt
+    val player_mind = (xml \ "player" \"mind").text.toInt
+    val player_aura = (xml \ "player" \"aura").text.toInt
+    val player_x = (xml \ "player" \"positionx").text.toInt
+    val player_y = (xml \ "player" \"positiony").text.toInt
+    val INVENTORY_SEQUENCE = (xml \ "player" \ "inventory")
+    var inventory = new ListBuffer[Item]
+    for(n <- INVENTORY_SEQUENCE){
+      n match {
+        case <weapon>{w}</weapon> => {
+          inventory += Weapon((w \ "name").text,
+                              (w \ "durability").text.toInt,
+                              (w \ "maxdurability").text.toInt,
+                              (w \ "weight").text.toInt,
+                              (w \ "value").text.toInt,
+                              (w \ "damage").text.toInt,
+                              (w \ "minstrength").text.toInt)
+        }
+        case <healingpostion>{h}</healingpostion> => {
+          inventory += HealingPotion((h \ "name").text,
+                                     (h \ "weight").text.toInt,
+                                     (h \ "value").text.toInt,
+                                     (h \ "usage").text.toInt,
+                                     (h \ "healthbonus").text.toInt)
+        }
+        case <key>{k}</key> => {
+          inventory += new Key
+        }
+      }
+    }
+
 
     //TODO load enemys
     //TODO load board
@@ -129,7 +166,7 @@ class XMLstate extends StateManager{
     <inventory>{
       for(item <- list){
         item match {
-          case w : Weapon => <weapon>
+          case w : Weapon => {<weapon>
             <name>{w.name}</name>
             <durability>{w.durability}</durability>
             <maxdurability>{w.maxDurability}</maxdurability>
@@ -137,14 +174,15 @@ class XMLstate extends StateManager{
             <value>{w.value}</value>
             <damage>{w.damage}</damage>
             <minstrength>{w.minStrength}</minstrength>
-          </weapon>
-          case h : HealingPotion => <healingpotion>
+          </weapon>}
+          case h : HealingPotion => {<healingpotion>
             <name>{h.name}</name>
             <weight>{h.weight}</weight>
             <value>{h.value}</value>
             <usage>{h.usage}</usage>
             <healthbonus>{h.healthBonus}</healthbonus>
-          </healingpotion>
+          </healingpotion>}
+          case k : Key => {<key></key>}
         }
       }
     }</inventory>
