@@ -5,17 +5,17 @@ package de.htwg.se.DungeonsOfDoom.model.items
   * Items which can be equipped, like weapons or clothes.
   */
 trait Equipable extends Item {
-  val maxDurability: Integer
-  var durability: Integer
+  val maxDurability: Int
+  var durability: Int
 
   def isBroken: Boolean = durability == 0
 
-  def lowerDurability(amount: Integer): Unit = {
+  def lowerDurability(amount: Int): Unit = {
     durability = durability - amount
     if (durability < 0) durability = 0
   }
 
-  def repair(amount: Integer): Unit = {
+  def repair(amount: Int): Unit = {
     durability = durability + amount
     if (durability > maxDurability) durability = maxDurability
   }

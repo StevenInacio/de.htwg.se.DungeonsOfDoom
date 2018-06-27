@@ -2,8 +2,10 @@ package de.htwg.se.DungeonsOfDoom.controller.utility
 
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
 import de.htwg.se.DungeonsOfDoom.controller.item.ItemInteraction
+import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, Item}
 
-object EventListener {
+class EventListener(val timeManager: TimeManager) {
+
   def deployEvent(event: String, parameter: Option[Any] = None): Unit = {
     event match {
       case "PlayerWalk" => walk(parameter)
@@ -16,7 +18,7 @@ object EventListener {
   }
 
   private[this] def walk(parameter: Option[Any]): Unit = {
-    TimeManager.saveState(TimeManager.getState())
+    timeManager.saveState(timeManager.getState)
     parameter match {
       case Some("Up") => BoardInteraction checkPlayer "Up"
       case Some("Down") => BoardInteraction checkPlayer "Down"
@@ -24,50 +26,50 @@ object EventListener {
       case Some("Right") => BoardInteraction checkPlayer "Right"
       case _ => Unit
     }
-    TimeManager.advanceTime()
+    timeManager.advanceTime()
   }
 
   private[this] def use(parameter: Option[Any]): Unit = {
     if (parameter.nonEmpty) {
-      val tmp = TimeManager.getState()
-      if (ItemInteraction use parameter.get) {
-        TimeManager.saveState(tmp)
-        TimeManager.advanceTime()
+      val tmp = timeManager.getState
+      if (ItemInteraction.use(BoardInteraction.player, parameter.get.asInstanceOf[Item])) {
+        timeManager.saveState(tmp)
+        timeManager.advanceTime()
       }
     }
   }
 
   private[this] def drop(parameter: Option[Any]): Unit = {
     if (parameter.nonEmpty) {
-      val tmp = TimeManager.getState()
-      if (BoardInteraction drop parameter.get) {
-        TimeManager.saveState(tmp)
-        TimeManager.advanceTime()
+      val tmp = timeManager.getState
+      if (BoardInteraction.drop(BoardInteraction.player, parameter.get.asInstanceOf[Item])) {
+        timeManager.saveState(tmp)
+        timeManager.advanceTime()
       }
     }
   }
 
   private[this] def pickup(parameter: Option[Any]): Unit = {
     if (parameter.nonEmpty) {
-      val tmp = TimeManager.getState()
-      if (BoardInteraction pickup parameter.get) {
-        TimeManager.saveState(tmp)
-        TimeManager.advanceTime()
+      val tmp = timeManager.getState
+      if (BoardInteraction.pickup(BoardInteraction.player, parameter.get.asInstanceOf[Item])) {
+        timeManager.saveState(tmp)
+        timeManager.advanceTime()
       }
     }
   }
 
   private[this] def unequip(parameter: Option[Any]): Unit = {
     if (parameter.nonEmpty) {
-      val tmp = TimeManager.getState()
-      if (ItemInteraction unequip parameter.get) {
-        TimeManager.saveState(tmp)
-        TimeManager.advanceTime()
+      val tmp = timeManager.getState
+      if (ItemInteraction.unequip(BoardInteraction.player, parameter.get.asInstanceOf[Equipable])) {
+        timeManager.saveState(tmp)
+        timeManager.advanceTime()
       }
     }
   }
 
   private[this] def undo(parameter: Option[Any]): Unit = {
-    TimeManager.undo()
+    timeManager.undo()
   }
 }

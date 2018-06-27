@@ -1,6 +1,8 @@
 package de.htwg.se.DungeonsOfDoom.controller.board
 
 
+import java.util.Observable
+
 import de.htwg.se.DungeonsOfDoom.controller.item.ItemInteraction
 import de.htwg.se.DungeonsOfDoom.controller.pawn.PawnInteraction
 import de.htwg.se.DungeonsOfDoom.controller.utility.Dice
@@ -10,13 +12,13 @@ import de.htwg.se.DungeonsOfDoom.model.pawns._
 
 import scala.collection.mutable.ListBuffer
 
-object BoardInteraction {
+object BoardInteraction extends Observable {
 
-  val player = Player("", 0, 0, 0, 0, 0, 0, 0, 0, 0)
+  var player = Player("", 0, 0, 0, 0, 0, 0, 0, 0, 0)
   var board = new Map()
-  val enemyList = new ListBuffer[Enemy]()
+  var enemyList = new ListBuffer[Enemy]()
 
-  def playerCheck(direction: String): Unit = {
+  def checkPlayer(direction: String): Unit = {
     check(player, direction)
   }
 
@@ -30,7 +32,7 @@ object BoardInteraction {
     }
   }
 
-  def checkAction(pawn: Pawn, field: Field, newPosition: (Integer, Integer)): Unit = {
+  def checkAction(pawn: Pawn, field: Field, newPosition: (Int, Int)): Unit = {
     fieldContains(field) match {
       case 0 => Unit
       case 1 => walk(pawn, field.asInstanceOf[Walkable], newPosition)
@@ -58,7 +60,7 @@ object BoardInteraction {
     }
   }
 
-  def walk(pawn: Pawn, field: Walkable, newPosition: (Integer, Integer)): Unit = {
+  def walk(pawn: Pawn, field: Walkable, newPosition: (Int, Int)): Unit = {
     val currentPos = pawn.currentPosition
     val oldField: Walkable = board.map(currentPos._1)(currentPos._2).asInstanceOf[Walkable]
     oldField.visitedBy = None
@@ -82,15 +84,16 @@ object BoardInteraction {
 
   def pickup(pawn: Pawn, item: Item): Boolean = {
     val curPos = pawn.currentPosition
-    ItemInteraction.pickup(pawn, board.map(curPos._1)(curPos._2), item)
+    ItemInteraction.pickup(pawn, board.map(curPos._1)(curPos._2).asInstanceOf[Floor], item)
   }
 
   def drop(pawn: Pawn, item: Item): Boolean = {
     val curPos = pawn.currentPosition
-    ItemInteraction.drop(pawn, board.map(curPos._1)(curPos._2), item)
+    ItemInteraction.drop(pawn, board.map(curPos._1)(curPos._2).asInstanceOf[Floor], item)
   }
 
   def setPlayer(player: Player): Unit = {
+    this.player = player
     board.map(board.playerSpawnPoint._1)(board.playerSpawnPoint._2).asInstanceOf[Walkable].visitedBy = Some(player)
     player.currentPosition = board.playerSpawnPoint
   }
