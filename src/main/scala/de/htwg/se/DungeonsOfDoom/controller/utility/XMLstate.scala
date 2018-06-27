@@ -1,6 +1,7 @@
 package de.htwg.se.DungeonsOfDoom.controller.utility
 
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
+import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Wall}
 import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, HealingPotion, Item, Weapon}
 
 import scala.collection.mutable.ListBuffer
@@ -55,9 +56,32 @@ class XMLstate {
       }
       </enemys>
       <board>{
-        //TODO save each field
-        //TODO save each fields items
-        }</board>
+        for(row <- BoardInteraction.board.map){
+          <row>
+            {
+              for (field <- row) {
+              field match {
+                case w: Wall => {
+                  <wall></wall>
+                }
+                case d: Door => {
+                  <door>{
+                      <doorstate>{d.doorState}</doorstate>
+                      <visited>{d.visitedBy}</visited>
+                    }</door>
+                }
+                case f: Floor => {
+                  <floor>{
+                      inventoryToXML(f.inventory)
+                    }
+                    <visited>{f.visitedBy}</visited>
+                  </floor>
+                }
+              }
+            }
+          }</row>
+        }
+      }</board>
     </state>
   }
 
