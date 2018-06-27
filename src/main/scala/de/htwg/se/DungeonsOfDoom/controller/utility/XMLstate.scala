@@ -44,7 +44,17 @@ class XMLstate {
         }</inventory>
         <equipped>{
           for(item <- BoardInteraction.player.equipped){
-            //TODO
+            item match {
+              case w : Weapon => <weapon>
+                                  <name>{w.name}</name>
+                                  <durability>{w.durability}</durability>
+                                  <maxdurability>{w.maxDurability}</maxdurability>
+                                  <weight>{w.weight}</weight>
+                                  <value>{w.value}</value>
+                                  <damage>{w.damage}</damage>
+                                  <minstrength>{w.minStrength}</minstrength>
+                                </weapon>
+            }
           }
         }</equipped>
       </player>
@@ -64,8 +74,43 @@ class XMLstate {
             <positionx>{enemy.currentPosition._1}</positionx>
             <positiony>{enemy.currentPosition._2}</positiony>
 
-            //TODO equipped list
-            //TODO save each enemys items
+            <inventory>{
+              for(item <- enemy.inventory){
+                item match {
+                  case w : Weapon => <weapon>
+                                        <name>{w.name}</name>
+                                        <durability>{w.durability}</durability>
+                                        <maxdurability>{w.maxDurability}</maxdurability>
+                                        <weight>{w.weight}</weight>
+                                        <value>{w.value}</value>
+                                        <damage>{w.damage}</damage>
+                                        <minstrength>{w.minStrength}</minstrength>
+                                      </weapon>
+                  case h : HealingPotion => <healingpotion>
+                                              <name>{h.name}</name>
+                                              <weight>{h.weight}</weight>
+                                              <value>{h.value}</value>
+                                              <usage>{h.usage}</usage>
+                                              <healthbonus>{h.healthBonus}</healthbonus>
+                                            </healingpotion>
+                }
+              }
+              }</inventory>
+            <equipped>{
+              for(item <- enemy.equipped){
+                item match {
+                  case w : Weapon => <weapon>
+                                        <name>{w.name}</name>
+                                        <durability>{w.durability}</durability>
+                                        <maxdurability>{w.maxDurability}</maxdurability>
+                                        <weight>{w.weight}</weight>
+                                        <value>{w.value}</value>
+                                        <damage>{w.damage}</damage>
+                                        <minstrength>{w.minStrength}</minstrength>
+                                      </weapon>
+                }
+              }
+              }</equipped>
 
           </enemy>
         }
