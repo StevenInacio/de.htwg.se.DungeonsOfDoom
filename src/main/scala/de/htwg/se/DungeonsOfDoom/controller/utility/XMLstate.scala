@@ -1,12 +1,14 @@
 package de.htwg.se.DungeonsOfDoom.controller.utility
 
+import java.io.{BufferedWriter, FileWriter}
+
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
-import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Wall}
+import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Wall, Map}
 import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, HealingPotion, Item, Weapon}
 import de.htwg.se.DungeonsOfDoom.model.pawns.{Enemy, Player}
 
 import scala.collection.mutable.ListBuffer
-import scala.xml.Node
+import scala.xml.{Node, XML}
 
 
 class XMLstate extends StateManager{
@@ -16,11 +18,22 @@ class XMLstate extends StateManager{
   }
 
   override def saveState(state: State) : Unit = {
-
+    val bw = new BufferedWriter(new FileWriter("savegame.xml"))
+    bw.write(state.contents)
+    bw.close
   }
 
   override def loadState : (Map, Player, ListBuffer[Enemy]) = {
+    val xml = XML.loadFile("savegame.xml")
+    fromXML(xml)
+  }
 
+  def fromXML(xml : Node) : (Map, Player, ListBuffer[Enemy]) = {
+    //TODO load player:
+
+    //TODO load enemys
+    //TODO load board
+    //TODO combine to (Map, Player, ListBuffer[Enemy])
   }
 
   def toXML() : Node = {
@@ -78,14 +91,12 @@ class XMLstate extends StateManager{
                 case d: Door => {
                   <door>{
                       <doorstate>{d.doorState}</doorstate>
-                      <visited>{d.visitedBy}</visited>
                     }</door>
                 }
                 case f: Floor => {
                   <floor>{
                       inventoryToXML(f.inventory)
                     }
-                    <visited>{f.visitedBy}</visited>
                   </floor>
                 }
               }
