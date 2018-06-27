@@ -1,9 +1,9 @@
 package de.htwg.se.DungeonsOfDoom.controller.utility
 
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
-import de.htwg.se.DungeonsOfDoom.model.items.{HealingPotion, Weapon}
-import de.htwg.se.DungeonsOfDoom.model.pawns.Pawn
+import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, HealingPotion, Item, Weapon}
 
+import scala.collection.mutable.ListBuffer
 import scala.xml.Node
 
 
@@ -23,8 +23,11 @@ class XMLstate {
         <aura>{BoardInteraction.player.aura}</aura>
         <positionx>{BoardInteraction.player.currentPosition._1}</positionx>
         <positiony>{BoardInteraction.player.currentPosition._2}</positiony>
-        inventoryToXML(BoardInteraction.player)
-        equippedToXML(BoardInteraction.player)
+        {
+          inventoryToXML(BoardInteraction.player.inventory)
+          equippedToXML(BoardInteraction.player.equipped)
+        }
+
       </player>
       <enemys>{
         for (enemy <- BoardInteraction.enemyList) {
@@ -41,8 +44,12 @@ class XMLstate {
             <aura>{enemy.aura}</aura>
             <positionx>{enemy.currentPosition._1}</positionx>
             <positiony>{enemy.currentPosition._2}</positiony>
-            inventoryToXML(enemy)
-            equippedToXML(enemy)
+            {
+              inventoryToXML(enemy.inventory)
+              equippedToXML(enemy.equipped)
+            }
+
+
           </enemy>
         }
       }
@@ -54,9 +61,9 @@ class XMLstate {
     </state>
   }
 
-  def equippedToXML(pawn: Pawn) : Node = {
+  def equippedToXML(list : ListBuffer[Equipable]) : Node = {
     <equipped>{
-      for(item <- pawn.equipped){
+      for(item <- list){
         item match {
           case w : Weapon => <weapon>
             <name>{w.name}</name>
@@ -71,9 +78,9 @@ class XMLstate {
       }
     }</equipped>
   }
-  def inventoryToXML(pawn: Pawn) : Node = {
+  def inventoryToXML(list : ListBuffer[Item]) : Node = {
     <inventory>{
-      for(item <- pawn.inventory){
+      for(item <- list){
         item match {
           case w : Weapon => <weapon>
             <name>{w.name}</name>
