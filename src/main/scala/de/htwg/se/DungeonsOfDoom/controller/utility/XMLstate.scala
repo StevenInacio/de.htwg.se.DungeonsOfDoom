@@ -445,8 +445,4 @@ class XMLstate extends StateManager {
     }
     player
   }
-  //TODO weapon from xml
-  //TODO healingpotion from xml
-  //TODO inventory from xml
-  //TODO equipped from xml
 }
