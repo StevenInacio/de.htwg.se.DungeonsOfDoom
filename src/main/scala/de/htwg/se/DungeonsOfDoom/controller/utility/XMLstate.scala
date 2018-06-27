@@ -3,7 +3,7 @@ package de.htwg.se.DungeonsOfDoom.controller.utility
 import java.io.{BufferedWriter, FileWriter}
 
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
-import de.htwg.se.DungeonsOfDoom.model.board.{Door, Floor, Map, Walkable, Wall}
+import de.htwg.se.DungeonsOfDoom.model.board.{Door, DoorState, Field, Floor, Map, Walkable, Wall}
 import de.htwg.se.DungeonsOfDoom.model.items._
 import de.htwg.se.DungeonsOfDoom.model.pawns.{Enemy, Player}
 
@@ -176,24 +176,64 @@ class XMLstate extends StateManager{
       }
       enemyList += enemy
     }
-    var map = new Map //TODO make this array[array]
+    var map = new Map(Array.ofDim[Field](4, 4))
     val BOARD_SEQUENCE = (xml \ "board")
+    val wall = new Wall
+    var rowIndex = 0
+    var fieldIndex = 0
     for(r <- BOARD_SEQUENCE){
       val FIELD_SEQUENCE = (r \ "row")
-      var row = new Array[Walkable] //TODO make this an array
-      for(f <- FIELD_SEQUENCE){
-
-        f match {
-          case <wall></wall> => row += new Wall() //add new wall to array row
+      var row = Array.ofDim[Field](4)
+      for(field <- FIELD_SEQUENCE){
+        field match {
+          case <wall></wall> => {
+            row(fieldIndex) = wall
+            fieldIndex += 1
+          }
           case <door>{d}</door> => {
-            //TODO read doorstate from d and add new door to array row
+            row(fieldIndex) = new Door(
+              (d \ "doorstate").text match {
+                case "locked" => DoorState.locked
+                case "closed" => DoorState.closed
+                case "open" => DoorState.open
+              }
+            )
+            fieldIndex += 1
           }
           case <floor>{f}</floor> => {
-            //TODO read inventory from f and add new floor with invenotsy to arra row
+            var floor_inventory = new ListBuffer[Item]
+            val FLOOR_INVENTORY_SEQUENCE = (f \ "inventory")
+            for(n <- FLOOR_INVENTORY_SEQUENCE){
+              n match {
+                case <weapon>{w}</weapon> => {
+                  floor_inventory += Weapon((w \ "name").text,
+                    (w \ "durability").text.toInt,
+                    (w \ "maxdurability").text.toInt,
+                    (w \ "weight").text.toInt,
+                    (w \ "value").text.toInt,
+                    (w \ "damage").text.toInt,
+                    (w \ "minstrength").text.toInt)
+                }
+                case <healingpostion>{h}</healingpostion> => {
+                  floor_inventory += HealingPotion((h \ "name").text,
+                    (h \ "weight").text.toInt,
+                    (h \ "value").text.toInt,
+                    (h \ "usage").text.toInt,
+                    (h \ "healthbonus").text.toInt)
+                }
+                case <key>{k}</key> => {
+                  floor_inventory += new Key
+                }
+              }
+            }
+            row(fieldIndex) = new Floor(floor_inventory)
+            fieldIndex += 1
           }
         }
       }
-      map += row //TODO append row to map
+      map(rowIndex) = row
+      fieldIndex = 0
+      rowIndex += 1
     }
     (map, player, enemyList)
   }
