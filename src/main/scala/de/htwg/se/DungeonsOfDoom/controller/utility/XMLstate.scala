@@ -18,7 +18,8 @@ class XMLstate {
         <spirit>{BoardInteraction.player.spirit}</spirit>
         <mind>{BoardInteraction.player.mind}</mind>
         <aura>{BoardInteraction.player.aura}</aura>
-        <position>{BoardInteraction.player.currentPosition}</position>
+        <positionx>{BoardInteraction.player.currentPosition._1}</positionx>
+        <positiony>{BoardInteraction.player.currentPosition._2}</positiony>
         <inventory>{
           for(item <- BoardInteraction.player.inventory){
             item match {
@@ -41,11 +42,39 @@ class XMLstate {
             }
           }
         }</inventory>
+        <equipped>{
+          for(item <- BoardInteraction.player.equipped){
+            //TODO
+          }
+        }</equipped>
       </player>
-    //TODO save each enemy (BoardInteraction.enemyList)
-    //TODO save each enemys items
+      <enemys>{
+        for (enemy <- BoardInteraction.enemyList) {
+          <enemy>
+            <name>{enemy.name}</name>
+            <body>{enemy.body}</body>
+            <strength>{enemy.strength}</strength>
+            <hardness>{enemy.hardness}</hardness>
+            <agility>{enemy.agility}</agility>
+            <mobility>{enemy.mobility}</mobility>
+            <dexterity>{enemy.dexterity}</dexterity>
+            <spirit>{enemy.spirit}</spirit>
+            <mind>{enemy.mind}</mind>
+            <aura>{enemy.aura}</aura>
+            <positionx>{enemy.currentPosition._1}</positionx>
+            <positiony>{enemy.currentPosition._2}</positiony>
+
+            //TODO equipped list
+            //TODO save each enemys items
+
+          </enemy>
+        }
+      }
+      </enemys>
+
     //TODO save each field
     //TODO save each fields items
+
     </state>
   }
 }
