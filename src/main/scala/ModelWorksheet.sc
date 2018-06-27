@@ -11,4 +11,6 @@ BoardInteraction.setPlayer(player)
 
 val injector: Injector = Guice.createInjector(new StateModuleWithJson())
 val stateManager = injector.getInstance(classOf[JSONstate])
+
+
 stateManager.getState
