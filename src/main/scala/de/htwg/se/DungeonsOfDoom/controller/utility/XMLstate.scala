@@ -28,7 +28,6 @@ class XMLstate {
           inventoryToXML(BoardInteraction.player.inventory)
           equippedToXML(BoardInteraction.player.equipped)
         }
-
       </player>
       <enemys>{
         for (enemy <- BoardInteraction.enemyList) {
@@ -49,8 +48,6 @@ class XMLstate {
               inventoryToXML(enemy.inventory)
               equippedToXML(enemy.equipped)
             }
-
-
           </enemy>
         }
       }
@@ -102,6 +99,7 @@ class XMLstate {
       }
     }</equipped>
   }
+
   def inventoryToXML(list : ListBuffer[Item]) : Node = {
     <inventory>{
       for(item <- list){
