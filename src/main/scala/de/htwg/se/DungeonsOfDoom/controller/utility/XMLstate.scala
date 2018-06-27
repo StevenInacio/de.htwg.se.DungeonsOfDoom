@@ -103,24 +103,23 @@ class XMLstate extends StateManager {
       }
       enemyList += enemy
     }
-    val map = new Map(Array.ofDim[Field](4, 4))
+    var map = new Map(Array.ofDim[Field](4, 4))
     val BOARD_SEQUENCE = xml \ "board"
     val wall = new Wall
     var rowIndex = 0
     var fieldIndex = 0
     for (r <- BOARD_SEQUENCE) {
       val FIELD_SEQUENCE = r \ "row"
-      val row = Array.ofDim[Field](4)
       for (field <- FIELD_SEQUENCE) {
         field match {
           case <wall></wall> =>
-            row(fieldIndex) = wall
+            map.map(rowIndex)(fieldIndex) = wall
             fieldIndex += 1
 
           case <door>
             {d}
             </door> =>
-            row(fieldIndex) = Door(
+            map.map(rowIndex)(fieldIndex) = Door(
               (d \ "doorstate").text match {
                 case "locked" => DoorState.locked
                 case "closed" => DoorState.closed
@@ -163,12 +162,11 @@ class XMLstate extends StateManager {
 
               }
             }
-            row(fieldIndex) = Floor(floor_inventory)
+            map.map(rowIndex)(fieldIndex) = Floor(floor_inventory)
             fieldIndex += 1
 
         }
       }
-      map(rowIndex) = row
       fieldIndex = 0
       rowIndex += 1
     }
