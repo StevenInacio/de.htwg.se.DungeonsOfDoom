@@ -1,10 +1,12 @@
 package de.htwg.se.DungeonsOfDoom.controller.utility
 
+import java.util.Observable
+
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
 import de.htwg.se.DungeonsOfDoom.controller.item.ItemInteraction
 import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, Item}
 
-class EventListener(val timeManager: TimeManager) {
+class EventListener(val timeManager: TimeManager) extends Observable {
 
   def deployEvent(event: String, parameter: Option[Any] = None): Unit = {
     event match {
@@ -16,6 +18,7 @@ class EventListener(val timeManager: TimeManager) {
       case "Undo" => undo(parameter)
       case "Exit" => timeManager.saveState(timeManager.getState)
     }
+    notifyAll()
   }
 
   private[this] def walk(parameter: Option[Any]): Unit = {

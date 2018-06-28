@@ -1,8 +1,6 @@
 package de.htwg.se.DungeonsOfDoom.controller.board
 
 
-import java.util.Observable
-
 import de.htwg.se.DungeonsOfDoom.controller.item.ItemInteraction
 import de.htwg.se.DungeonsOfDoom.controller.pawn.PawnInteraction
 import de.htwg.se.DungeonsOfDoom.controller.utility.Dice
@@ -12,7 +10,7 @@ import de.htwg.se.DungeonsOfDoom.model.pawns._
 
 import scala.collection.mutable.ListBuffer
 
-object BoardInteraction extends Observable {
+object BoardInteraction {
 
   var player = Player("", 0, 0, 0, 0, 0, 0, 0, 0, 0)
   var board = new Map()
