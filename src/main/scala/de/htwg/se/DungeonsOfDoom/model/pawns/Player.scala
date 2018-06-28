@@ -1,6 +1,8 @@
 package de.htwg.se.DungeonsOfDoom.model.pawns
 
-import de.htwg.se.DungeonsOfDoom.model.items.Weapon
+import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, Item, Weapon}
+
+import scala.collection.mutable.ListBuffer
 
 case class Player(name: String,
                   var body: Int,
@@ -29,7 +31,8 @@ case class Player(name: String,
             mind: Int,
             aura: Int,
             currentPosition: (Int, Int) = (0, 0),
-            inventory): Player = {
+            inventory: ListBuffer[Item],
+            equipped: Array[Equipable]): Player = {
     val player = Player(name, body, strength, hardness, agility, mobility, dexterity, spirit, mind, aura, currentPosition)
     player.inventory = inventory
     for (x <- equipped) {

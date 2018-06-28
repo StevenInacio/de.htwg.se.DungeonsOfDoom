@@ -99,17 +99,37 @@ object BoardInteraction extends Observable {
   }
 
   def spawnEnemy(): Unit = {
-    var rand: scala.util.Random = Unit.asInstanceOf[scala.util.Random]
+    var rand: scala.util.Random = new scala.util.Random()
     var x, y = 0
+    var counter = 0
     do {
       rand = new scala.util.Random()
-      x = rand.nextInt(board.map.length)
+      x = rand.nextInt(board.map.length - 2) + 1
       rand = new scala.util.Random()
-      y = rand.nextInt(board.map(0).length)
-    } while (!board.map(x)(y).isInstanceOf[Walkable] || board.map(x)(y).asInstanceOf[Walkable].visitedBy.nonEmpty)
-    val enemy: Enemy = EnemyFactory.generate((x, y))
-    board.map(x)(y).asInstanceOf[Walkable].visitedBy = Some(enemy)
-    enemyList += enemy
+      y = rand.nextInt(board.map(0).length - 2) + 1
+      counter += 1
+    } while ((!isFree(board.map(x)(y))) && counter <= 50)
+    if (counter <= 50) {
+      println("It works")
+      val enemy: Enemy = EnemyFactory.generate((x, y))
+      board.map(x)(y).asInstanceOf[Walkable].visitedBy = Some(enemy)
+      enemyList += enemy
+    }
+    else {
+      println("Didn't work")
+    }
+  }
+
+  def isFree(field: Field): Boolean = {
+    if (field.isInstanceOf[Wall]) {
+      false
+    }
+    else {
+      field.asInstanceOf[Walkable].visitedBy match {
+        case None => true
+        case Some(_) => false
+      }
+    }
   }
 
 }

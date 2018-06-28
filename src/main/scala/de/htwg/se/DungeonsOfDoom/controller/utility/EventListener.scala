@@ -14,6 +14,7 @@ class EventListener(val timeManager: TimeManager) {
       case "PickUpItem" => pickup(parameter)
       case "UnequipItem" => unequip(parameter)
       case "Undo" => undo(parameter)
+      case "Exit" => timeManager.saveState(timeManager.getState)
     }
   }
 
