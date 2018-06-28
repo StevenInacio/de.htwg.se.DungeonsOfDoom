@@ -67,24 +67,22 @@ class JSONState() extends StateManager {
   implicit val playerWrites: Writes[Player] = new Writes[Player] {
     override def writes(o: Player): JsValue = {
       Json.obj(
-        "Player" -> Json.obj(
-          "Name" -> o.name,
-          "Stats" ->
-            Json.obj(
-              "body" -> o.body,
-              "strength" -> o.strength,
-              "hardness" -> o.hardness,
-              "agility" -> o.agility,
-              "mobility" -> o.mobility,
-              "dexterity" -> o.dexterity,
-              "spirit" -> o.spirit,
-              "mind" -> o.mind,
-              "aura" -> o.aura
-            ),
-          "Current Position" -> o.currentPosition,
-          "Equip" -> getEquipJson(o.equipped),
-          "Inventory" -> getInventoryJson(o.inventory)
-        )
+        "Name" -> o.name,
+        "Stats" ->
+          Json.obj(
+            "body" -> o.body,
+            "strength" -> o.strength,
+            "hardness" -> o.hardness,
+            "agility" -> o.agility,
+            "mobility" -> o.mobility,
+            "dexterity" -> o.dexterity,
+            "spirit" -> o.spirit,
+            "mind" -> o.mind,
+            "aura" -> o.aura
+          ),
+        "Current Position" -> o.currentPosition,
+        "Equip" -> getEquipJson(o.equipped),
+        "Inventory" -> getInventoryJson(o.inventory)
       )
     }
   }
@@ -142,8 +140,11 @@ class JSONState() extends StateManager {
     val playerJson = Json.toJson(BoardInteraction.player)
     val boardJson = getBoardJson(BoardInteraction.board)
     val enemyJson = getEnemiesJson(BoardInteraction.enemyList)
-    val parsedJsonString: String = Json.prettyPrint(playerJson) + Json.prettyPrint(boardJson) + Json.prettyPrint(enemyJson)
-    State(parsedJsonString)
+    val parsedJson: JsValue = Json.obj(
+      "Player" -> playerJson,
+      "Map" -> boardJson,
+      "Enemies" -> enemyJson)
+    State(Json.prettyPrint(parsedJson))
   }
 
   private[this] def getBoardJson(map: Map): JsValue = {
@@ -161,10 +162,8 @@ class JSONState() extends StateManager {
       }
       boardJson += x.toString -> JsArray(row)
     }
-    Json.obj("Map" -> Json.obj(
-      "Spawn Point" -> spawnPoint,
+    Json.obj("Spawn Point" -> spawnPoint,
       "Board" -> boardJson)
-    )
   }
 
   private[this] def getEnemiesJson(enemies: ListBuffer[Enemy]): JsValue = {
@@ -172,7 +171,7 @@ class JSONState() extends StateManager {
     for (x <- enemies) {
       enemyJson += Json.toJson(x).as[JsObject]
     }
-    Json.obj("Enemies" -> JsArray(enemyJson))
+    JsArray(enemyJson)
   }
 
   override def saveState(state: State): Unit = {

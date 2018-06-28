@@ -1,4 +1,4 @@
-package de.htwg.se.DungeonsOfDoom.controller.utility
+package de.htwg.se.DungeonsOfDoom.model.utility
 
 object Dice {
   def roll(size: Int): Int = {

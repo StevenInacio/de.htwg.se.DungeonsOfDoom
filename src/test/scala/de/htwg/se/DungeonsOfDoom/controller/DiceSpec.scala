@@ -1,6 +1,6 @@
 package de.htwg.se.DungeonsOfDoom.controller
 
-import de.htwg.se.DungeonsOfDoom.controller.utility.Dice
+import de.htwg.se.DungeonsOfDoom.model.utility.Dice
 import org.junit.runner.RunWith
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.junit.JUnitRunner

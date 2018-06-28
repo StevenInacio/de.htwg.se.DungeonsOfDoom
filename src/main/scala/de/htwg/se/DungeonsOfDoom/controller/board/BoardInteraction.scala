@@ -3,10 +3,10 @@ package de.htwg.se.DungeonsOfDoom.controller.board
 
 import de.htwg.se.DungeonsOfDoom.controller.item.ItemInteraction
 import de.htwg.se.DungeonsOfDoom.controller.pawn.PawnInteraction
-import de.htwg.se.DungeonsOfDoom.controller.utility.Dice
 import de.htwg.se.DungeonsOfDoom.model.board._
 import de.htwg.se.DungeonsOfDoom.model.items.{Item, Key}
 import de.htwg.se.DungeonsOfDoom.model.pawns._
+import de.htwg.se.DungeonsOfDoom.model.utility.Dice
 
 import scala.collection.mutable.ListBuffer
 

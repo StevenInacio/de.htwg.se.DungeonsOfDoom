@@ -1,6 +1,6 @@
 package de.htwg.se.DungeonsOfDoom.controller
 
-import java.io.{BufferedWriter, FileInputStream, FileReader}
+import java.io.FileInputStream
 
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
 import de.htwg.se.DungeonsOfDoom.controller.utility.{EventListener, JSONState, TimeManager, XMLstate}
@@ -13,7 +13,7 @@ import play.api.libs.json.Json
 
 @RunWith(classOf[JUnitRunner])
 class EventListenerSpec extends WordSpec with Matchers {
-  var listener = new EventListener(new TimeManager(new XMLstate))
+  var listener = new EventListener(new JSONState)
   TestGame.init()
   "An EventListener" should {
     val weapon = BoardInteraction.player.equipped.head
@@ -58,19 +58,19 @@ class EventListenerSpec extends WordSpec with Matchers {
       BoardInteraction.player.currentHealth should be(10)
     }
     "handle undo" in {
-      val previousState = listener.timeManager.getState
+      val previousState = listener.stateManager.getState
       listener.deployEvent("PlayerWalk", Some("Up"), timeShouldAdvance = false)
       listener.deployEvent("Undo", timeShouldAdvance = false)
-      val currentState = listener.timeManager.getState
+      val currentState = listener.stateManager.getState
       currentState should be(previousState)
     }
     "save the game on exit" in {
       listener.deployEvent("PlayerWalk", Some("Up"), timeShouldAdvance = false)
       listener.deployEvent("Exit", timeShouldAdvance = false)
-      val bw = new FileInputStream("savestate.json")
-      val content = try { Json.parse(bw).toString() } finally { bw.close() }
-      val savedState = listener.timeManager.getState
-      savedState.contents should be(content)
+      val bw = new FileInputStream("savegame.json")
+      val content = try { Json.parse(bw) } finally { bw.close() }
+      val savedState = listener.stateManager.getState
+      savedState.contents should be(Json.prettyPrint(content))
     }
   }
 }

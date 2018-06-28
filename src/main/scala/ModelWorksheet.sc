@@ -8,9 +8,3 @@ import de.htwg.se.DungeonsOfDoom.model.pawns.Player
 val player = Player("Herbert", 5, 5, 5, 5, 5, 5, 5, 5, 5)
 val weapon = Weapon("Daggerbert Stab", 1, 1, 1, 1, 1, 1)
 BoardInteraction.setPlayer(player)
-
-val injector: Injector = Guice.createInjector(new StateModuleWithJson())
-val stateManager = injector.getInstance(classOf[JSONState])
-
-
-stateManager.getState
