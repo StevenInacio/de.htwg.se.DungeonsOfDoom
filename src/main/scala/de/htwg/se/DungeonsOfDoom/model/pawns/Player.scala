@@ -1,17 +1,48 @@
 package de.htwg.se.DungeonsOfDoom.model.pawns
 
+import de.htwg.se.DungeonsOfDoom.model.items.{Equipable, Item, Weapon}
+
+import scala.collection.mutable.ListBuffer
+
 case class Player(name: String,
-                  var body: Integer,
-                  var strength: Integer,
-                  var hardness: Integer,
-                  var agility: Integer,
-                  var mobility: Integer,
-                  var dexterity: Integer,
-                  var spirit: Integer,
-                  var mind: Integer,
-                  var aura: Integer,
-                  var currentPosition: (Integer, Integer) = (0, 0)
+                  var body: Int,
+                  var strength: Int,
+                  var hardness: Int,
+                  var agility: Int,
+                  var mobility: Int,
+                  var dexterity: Int,
+                  var spirit: Int,
+                  var mind: Int,
+                  var aura: Int,
+                  var currentPosition: (Int, Int) = (0, 0)
                  ) extends Pawn {
 
   override def toString: String = name
+
+  //scalastyle:off
+  def apply(name: String,
+            body: Int,
+            strength: Int,
+            hardness: Int,
+            agility: Int,
+            mobility: Int,
+            dexterity: Int,
+            spirit: Int,
+            mind: Int,
+            aura: Int,
+            currentPosition: (Int, Int) = (0, 0),
+            inventory: ListBuffer[Item],
+            equipped: Array[Equipable]): Player = {
+    val player = Player(name, body, strength, hardness, agility, mobility, dexterity, spirit, mind, aura, currentPosition)
+    player.inventory = inventory
+    for (x <- equipped) {
+      x match {
+        case w: Weapon => player.melee_bonus += w.damage
+          player.equipped += w
+      }
+    }
+    player
+  }
+
+  //scalastyle:on
 }

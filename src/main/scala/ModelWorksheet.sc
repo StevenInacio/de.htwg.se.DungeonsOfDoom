@@ -1,18 +1,10 @@
 
-case class Cell(x:Int, y:Int)
-
-val cell1 = Cell(4,5)
-cell1.x
-cell1.y
-
-case class Field(cells: Array[Cell])
-
-val field1 = Field(Array.ofDim[Cell](1))
-field1.cells(0)=cell1
-field1.cells(0).x
-field1.cells(0).y
-
+import com.google.inject.{Guice, Injector}
+import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
+import de.htwg.se.DungeonsOfDoom.controller.utility.{JSONState, StateModuleWithJson}
+import de.htwg.se.DungeonsOfDoom.model.items.Weapon
 import de.htwg.se.DungeonsOfDoom.model.pawns.Player
-var player = Player("Player",0,0,0,0,0,0,0,0,0)
-print(player.spirit)
-player.spirit += 1
+
+val player = Player("Herbert", 5, 5, 5, 5, 5, 5, 5, 5, 5)
+val weapon = Weapon("Daggerbert Stab", 1, 1, 1, 1, 1, 1)
+BoardInteraction.setPlayer(player)

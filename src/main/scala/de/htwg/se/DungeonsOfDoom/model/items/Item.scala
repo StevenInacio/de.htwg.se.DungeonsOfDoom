@@ -8,6 +8,6 @@ package de.htwg.se.DungeonsOfDoom.model.items
   */
 trait Item {
   val name: String
-  val weight: Integer
-  val value: Integer
+  val weight: Int
+  val value: Int
 }
