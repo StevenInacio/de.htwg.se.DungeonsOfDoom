@@ -103,30 +103,32 @@ class XMLstate extends StateManager {
       }
       enemyList += enemy
     }
-    var map = new Map(Array.ofDim[Field](4, 4))
+    //var map = new Map(Array.ofDim[Field](4, 4))
+    val tempBoard = new ListBuffer[Array[Field]]
+    val playerStartX = (xml \ "board" \ "playerstartx").text.toInt
+    val playerStartY = (xml \ "board" \ "playerstarty").text.toInt
     val BOARD_SEQUENCE = xml \ "board"
     val wall = new Wall
-    var rowIndex = 0
-    var fieldIndex = 0
+    //var rowIndex = 0
+    //var fieldIndex = 0
     for (r <- BOARD_SEQUENCE) {
       val FIELD_SEQUENCE = r \ "row"
+      val row = new ListBuffer[Field]
       for (field <- FIELD_SEQUENCE) {
         field match {
           case <wall></wall> =>
-            map.map(rowIndex)(fieldIndex) = wall
-            fieldIndex += 1
+            row += wall
 
           case <door>
             {d}
             </door> =>
-            map.map(rowIndex)(fieldIndex) = Door(
+            row += Door(
               (d \ "doorstate").text match {
                 case "locked" => DoorState.locked
                 case "closed" => DoorState.closed
                 case "open" => DoorState.open
               }
             )
-            fieldIndex += 1
 
           case <floor>
             {f}
@@ -162,14 +164,12 @@ class XMLstate extends StateManager {
 
               }
             }
-            map.map(rowIndex)(fieldIndex) = Floor(floor_inventory)
-            fieldIndex += 1
-
+            row += Floor(floor_inventory)
         }
+        tempBoard += row.toArray
       }
-      fieldIndex = 0
-      rowIndex += 1
     }
+    val map = new Map(tempBoard.toArray, (playerStartX, playerStartY))
     (map, player, enemyList)
   }
 
@@ -258,6 +258,8 @@ class XMLstate extends StateManager {
       }}
       </enemys>
       <board>
+        <playerstartx>{BoardInteraction.board.playerSpawnPoint._1}</playerstartx>
+        <playerstarty>{BoardInteraction.board.playerSpawnPoint._2}</playerstarty>
         {for (row <- BoardInteraction.board.map) {
         <row>
           {for (field <- row) {
@@ -386,7 +388,7 @@ class XMLstate extends StateManager {
       (xml \ "player" \ "spirit").text.toInt,
       (xml \ "player" \ "mind").text.toInt,
       (xml \ "player" \ "aura").text.toInt,
-      currentPosition = (player_x, player_y))
+      (player_x, player_y))
     for (n <- PLAYER_INVENTORY_SEQUENCE) {
       n match {
         case <weapon>
