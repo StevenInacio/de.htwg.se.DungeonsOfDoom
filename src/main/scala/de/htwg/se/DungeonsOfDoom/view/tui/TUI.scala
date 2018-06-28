@@ -1,6 +1,10 @@
-package de.htwg.se.DungeonsOfDoom.view.TUI
+package de.htwg.se.DungeonsOfDoom.view.tui
 
-class TextView {
+import java.util.{Observable, Observer}
+
+import de.htwg.se.DungeonsOfDoom.controller.utility.EventListener
+
+class TUI(listener : EventListener) extends Observer {
   val DEBUG = true
   val ERROR = true
   val OUT = true
@@ -13,6 +17,8 @@ class TextView {
   def logOut(input : String) : Unit = {
     if(OUT) print(input)
   }
+
+  override def update(o: Observable, arg: scala.Any): Unit = ???
 }
 
 
