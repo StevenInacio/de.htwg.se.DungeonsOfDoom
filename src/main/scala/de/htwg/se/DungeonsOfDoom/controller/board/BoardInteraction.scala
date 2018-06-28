@@ -16,6 +16,12 @@ object BoardInteraction {
   var board = new Map()
   var enemyList = new ListBuffer[Enemy]()
 
+  def reset(player: Player = Player("", 0, 0, 0, 0, 0, 0, 0, 0, 0)) : Unit = {
+    setPlayer(player)
+    board = new Map()
+    enemyList = new ListBuffer[Enemy]()
+  }
+
   def checkPlayer(direction: String): Unit = {
     check(player, direction)
   }
@@ -23,8 +29,8 @@ object BoardInteraction {
   def check(pawn: Pawn, direction: String): Unit = {
     val pos = pawn.currentPosition
     direction match {
-      case "Up" => checkAction(pawn, board.map(pos._1)(pos._2 + 1), (pos._1, pos._2 + 1))
-      case "Down" => checkAction(pawn, board.map(pos._1)(pos._2 - 1), (pos._1, pos._2 - 1))
+      case "Up" => checkAction(pawn, board.map(pos._1)(pos._2 - 1), (pos._1, pos._2 - 1))
+      case "Down" => checkAction(pawn, board.map(pos._1)(pos._2 + 1), (pos._1, pos._2 + 1))
       case "Left" => checkAction(pawn, board.map(pos._1 - 1)(pos._2), (pos._1 - 1, pos._2))
       case "Right" => checkAction(pawn, board.map(pos._1 + 1)(pos._2), (pos._1 + 1, pos._2))
     }
@@ -80,9 +86,14 @@ object BoardInteraction {
     }
   }
 
-  def pickup(pawn: Pawn, item: Item): Boolean = {
+  def pickup(pawn: Pawn): Boolean = {
     val curPos = pawn.currentPosition
-    ItemInteraction.pickup(pawn, board.map(curPos._1)(curPos._2).asInstanceOf[Floor], item)
+    val field = board.map(curPos._1)(curPos._2).asInstanceOf[Floor]
+    var result = true
+    for (item <- field.inventory) {
+      result = ItemInteraction.pickup(pawn, field, item)
+    }
+    result
   }
 
   def drop(pawn: Pawn, item: Item): Boolean = {

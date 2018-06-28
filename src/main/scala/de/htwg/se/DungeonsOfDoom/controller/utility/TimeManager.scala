@@ -1,9 +1,10 @@
 package de.htwg.se.DungeonsOfDoom.controller.utility
 
 import de.htwg.se.DungeonsOfDoom.controller.board.BoardInteraction
+import de.htwg.se.DungeonsOfDoom.model.board.Walkable
 
 class TimeManager(stateManager: StateManager) {
-  // returns false if the user wants to exit the game
+
   def getState: State = {
     stateManager.getState
   }
@@ -13,6 +14,12 @@ class TimeManager(stateManager: StateManager) {
   }
 
   def advanceTime(): Unit = {
+    val dead = BoardInteraction.enemyList.filter(x => x.currentHealth == 0)
+    for (corpse <- dead) {
+      val pos = corpse.currentPosition
+      BoardInteraction.board.map(pos._1)(pos._2).asInstanceOf[Walkable].visitedBy = None
+      BoardInteraction.enemyList -= corpse
+    }
     for (enemy <- BoardInteraction.enemyList) {
       val (x, y) = enemy.currentPosition
       val (pX, pY) = BoardInteraction.player.currentPosition
