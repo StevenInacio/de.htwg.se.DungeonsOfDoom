@@ -12,9 +12,9 @@ import scala.collection.mutable.ListBuffer
 
 class JSONState() extends StateManager {
 
-  implicit val weaponFormat: OWrites[Weapon] = Json.format[Weapon]
+  implicit val weaponFormat = Json.format[Weapon]
 
-  implicit val potionFormat: OWrites[HealingPotion] = Json.format[HealingPotion]
+  implicit val potionFormat = Json.format[HealingPotion]
 
   implicit val keyFormat: Format[Key] = new Format[Key] {
     override def writes(o: Key): JsValue = Json.obj()
