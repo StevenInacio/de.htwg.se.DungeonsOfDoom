@@ -4,7 +4,7 @@ package de.htwg.se.DungeonsOfDoom.controller.board
 import de.htwg.se.DungeonsOfDoom.controller.item.ItemInteraction
 import de.htwg.se.DungeonsOfDoom.controller.pawn.PawnInteraction
 import de.htwg.se.DungeonsOfDoom.model.board._
-import de.htwg.se.DungeonsOfDoom.model.items.{Item, Key}
+import de.htwg.se.DungeonsOfDoom.model.items.Item
 import de.htwg.se.DungeonsOfDoom.model.pawns._
 import de.htwg.se.DungeonsOfDoom.model.utility.Dice
 
@@ -17,16 +17,16 @@ object BoardInteraction {
   var enemyList = new ListBuffer[Enemy]()
 
   def reset(player: Player = Player("", 0, 0, 0, 0, 0, 0, 0, 0, 0)) : Unit = {
-    setPlayer(player)
     board = new Map()
+    setPlayer(player)
     enemyList = new ListBuffer[Enemy]()
   }
 
-  def checkPlayer(direction: String): Unit = {
+  def checkPlayer(direction: String): Option[Int] = {
     check(player, direction)
   }
 
-  def check(pawn: Pawn, direction: String): Unit = {
+  def check(pawn: Pawn, direction: String): Option[Int] = {
     val pos = pawn.currentPosition
     direction match {
       case "Up" => checkAction(pawn, board.map(pos._1)(pos._2 - 1), (pos._1, pos._2 - 1))
@@ -36,12 +36,14 @@ object BoardInteraction {
     }
   }
 
-  def checkAction(pawn: Pawn, field: Field, newPosition: (Int, Int)): Unit = {
+  def checkAction(pawn: Pawn, field: Field, newPosition: (Int, Int)): Option[Int] = {
     fieldContains(field) match {
-      case 0 => Unit
+      case 0 => None
       case 1 => walk(pawn, field.asInstanceOf[Walkable], newPosition)
+        None
       case 2 => openDoor(pawn, field.asInstanceOf[Door])
-      case 3 => PawnInteraction.attack(player, field.asInstanceOf[Walkable].visitedBy.get, Dice.roll(20), Dice.roll(20))
+        None
+      case 3 => Some(PawnInteraction.attack(player, field.asInstanceOf[Walkable].visitedBy.get, Dice.roll(20), Dice.roll(20)))
     }
   }
 
@@ -56,10 +58,9 @@ object BoardInteraction {
           2
         }
       case x: Walkable =>
-        if (x.visitedBy.isEmpty) {
-          1
-        } else {
-          3
+        x.visitedBy match {
+          case None => 1
+          case Some(_) => 3
         }
     }
   }
@@ -74,11 +75,10 @@ object BoardInteraction {
 
   def openDoor(pawn: Pawn, door: Door): Unit = {
     if (door.isLocked) {
-      pawn.inventory.find((x: Item) => x.isInstanceOf[Key]) match {
-        case Some(x) =>
-          ItemInteraction.use(pawn, x)
-          door.doorState = DoorState.open
-        case None => Unit
+      val list = pawn.inventory.filter(x => x.name == "Key")
+      if (list.nonEmpty) {
+        pawn.inventory -= list.head
+        door.doorState = DoorState.open
       }
     }
     else {
@@ -119,13 +119,9 @@ object BoardInteraction {
       counter += 1
     } while ((!isFree(board.map(x)(y))) && counter <= 50)
     if (counter <= 50) {
-      println("It works")
       val enemy: Enemy = EnemyFactory.generate((x, y))
       board.map(x)(y).asInstanceOf[Walkable].visitedBy = Some(enemy)
       enemyList += enemy
-    }
-    else {
-      println("Didn't work")
     }
   }
 
@@ -137,6 +133,36 @@ object BoardInteraction {
       field.asInstanceOf[Walkable].visitedBy match {
         case None => true
         case Some(_) => false
+      }
+    }
+  }
+
+  def hasLoot(field: Field): Boolean = {
+    if (!field.isInstanceOf[Floor]) {
+      false
+    }
+    else {
+      field.asInstanceOf[Floor].inventory.nonEmpty
+    }
+  }
+
+  def isDoorOpen(field: Field): Boolean = {
+    if (!field.isInstanceOf[Door]) {
+      false
+    }
+    else {
+      field.asInstanceOf[Door].isOpen
+    }
+  }
+
+  def hasEnemy(field: Field): Option[Char] = {
+    if (!field.isInstanceOf[Walkable]) {
+      None
+    }
+    else {
+      field.asInstanceOf[Walkable].visitedBy match {
+        case None => None
+        case Some(x) => Some(x.name.head)
       }
     }
   }

@@ -36,7 +36,7 @@ object MapFactory {
     fullInventory += Weapon("Sword", 10, 20, 5, 100, 3, 0)
     fullInventory += HealingPotion("Ham", 1, 3, 1, 5)
     val floorWithItems = Floor(fullInventory)
-    val map = Array.ofDim[Field](10, 10)
+    val map = Array.ofDim[Field](10, 11)
     for (x <- map.indices) {
       for (y <- map(0).indices) {
         map(x)(y) = Floor()
@@ -44,8 +44,10 @@ object MapFactory {
     }
     for (i <- 0 to 9) {
       map(i)(0) = Wall()
+      map(i)(10) = Wall()
+    }
+    for (i <- 0 to 10) {
       map(0)(i) = Wall()
-      map(i)(9) = Wall()
       map(9)(i) = Wall()
     }
     map(4)(3) = floorWithItems

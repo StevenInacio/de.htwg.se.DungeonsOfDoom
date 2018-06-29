@@ -1,7 +1,9 @@
 package de.htwg.se.DungeonsOfDoom
 
 import com.google.inject.{Guice, Injector}
-import de.htwg.se.DungeonsOfDoom.controller.utility.{EventListener, JSONState, StateModuleWithJson, TimeManager}
+import de.htwg.se.DungeonsOfDoom.controller.utility.{EventListener, JSONState, StateModuleWithJson}
+import de.htwg.se.DungeonsOfDoom.view.gui.GUI
+import de.htwg.se.DungeonsOfDoom.view.tui.TUI
 
 object DungeonsOfDoom {
 
@@ -9,8 +11,10 @@ object DungeonsOfDoom {
     val injector: Injector = Guice.createInjector(new StateModuleWithJson())
     val stateManager = injector.getInstance(classOf[JSONState])
     val listener = new EventListener(stateManager)
-    //val tui = new Tui(listener)
-    //val gui = new Gui(listener)
+    val tui = new TUI(listener)
+    val gui = new GUI(listener)
+    gui.top
+    tui.init()
   }
 
 }

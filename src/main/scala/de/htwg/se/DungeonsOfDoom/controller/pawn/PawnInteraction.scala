@@ -3,7 +3,7 @@ package de.htwg.se.DungeonsOfDoom.controller.pawn
 import de.htwg.se.DungeonsOfDoom.model.pawns.Pawn
 
 object PawnInteraction {
-  def attack(attacker: Pawn, target: Pawn, attackerDice: Int, targetDice: Int): Unit = {
+  def attack(attacker: Pawn, target: Pawn, attackerDice: Int, targetDice: Int): Int = {
     var result = attackerDice
     if (result <= attacker.hit && result < 20) {
       if (targetDice <= target.defense && targetDice < 20) {
@@ -13,6 +13,10 @@ object PawnInteraction {
         result = 0
       }
       target.changeHealth(-result)
+      result
+    }
+    else {
+      0
     }
   }
 
